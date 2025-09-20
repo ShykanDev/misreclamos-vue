@@ -8,9 +8,7 @@
     <!-- Contenido textual (izquierda en PC) -->
     <div class="text-center lg:text-left">
       <div class="inline-flex justify-center items-center px-3 py-1 mb-4 text-sm font-medium text-rose-600 bg-rose-50 rounded-full">
-        <svg class="mr-1.5 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
+        <v-icon name="fa-balance-scale" class="mr-1.5" scale="1.5"/>
         Plataforma de reclamos transparente
       </div>
       <h1 class="mb-6 text-4xl font-extrabold leading-tight text-gray-900 sm:text-5xl lg:text-6xl">
@@ -20,7 +18,7 @@
         </span>
       </h1>
       <p class="mb-8 max-w-prose text-lg text-gray-600">
-        ¿Tienes un reclamo? Comparte tus experiencias y hagamos visible lo que necesita cambiar en servicios, empresas, productos y más.
+        ¿Tiene un reclamo? Compartea sus experiencias y hagamos visible lo que necesita cambiar en servicios, empresas, productos y más.
       </p>
 
       <!-- Categorías con animación -->
@@ -30,7 +28,8 @@
           :key="index"
           class="inline-flex items-center px-4 py-2 text-lg font-medium text-white bg-rose-600 rounded-lg transition-all hover:bg-rose-700 hover:shadow-lg hover:transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
         >
-          {{ service }}
+        <v-icon :name="service.icon" class="mr-2"/>
+          {{ service.name }}
         </button>
       </div>
 
@@ -38,7 +37,7 @@
       <div class="flex justify-center lg:justify-start">
         <a
           href="#"
-          class="inline-flex justify-center items-center px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-purple-500 to-red-600 rounded-lg shadow-lg transition-all transform hover:from-rose-700 hover:to-red-900 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
+          class="inline-flex justify-center items-center px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-lg transition-all transform hover:from-rose-700 hover:to-red-900 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
         >
           ¡Registro Gratis!
           <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,7 +69,7 @@
       <section class="grid grid-cols-3 w-full">
 
         <!--Categories-->
-        <article class="overflow-y-scroll z-50 bg-blue-500 h-dvh">
+        <article class="overflow-y-scroll bg-blue-500 h-dvh">
         <CategoriesComponent/>
         </article>
 
@@ -190,15 +189,42 @@ import CommentCard from '@/components/CommentCard.vue';
 import CategoriesComponent from '@/components/MainCategories/CategoriesComponent.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 const categories = [
-  "Bancos",
-  "Gobierno",
-  "Redes Sociales",
-  "Paquetería y Correos",
-  "Salud",
-  "Transportes",
-  "Streaming",
-  "Hospedaje",
-  "Comida y Restaurantes"
+  {
+    name:'Bancos',
+    icon:'bi-bank2'
+  },
+  {
+    name:'Gobierno',
+    icon:'ri-government-line'
+  },
+  {
+    name:'Redes Sociales',
+    icon:'io-chatbubbles'
+  },
+  {
+    name:'Paquetería y Correos',
+    icon:'bi-mailbox2'
+  },
+  {
+    name:'Salud',
+    icon:'md-healthandsafety'
+  },
+  {
+    name:'Transportes',
+    icon:'fa-bus-alt'
+  },
+  {
+    name:'Streaming',
+    icon:'md-livetv-twotone'
+  },
+  {
+    name:'Hospedaje',
+    icon:'ri-hotel-line'
+  },
+  {
+    name:'Comida y Restaurantes',
+    icon:'io-restaurant'
+  }
 ];
 
 

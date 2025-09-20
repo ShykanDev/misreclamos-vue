@@ -1,5 +1,5 @@
 <template>
-    <div class="flex z-20 flex-col justify-center p-4 w-full bg-white items-left">
+    <div class="flex flex-col justify-center p-4 w-full bg-white items-left">
   <h4 class="inline-block sticky top-9 z-30 mb-6 text-2xl font-semibold text-rose-800 bg-white">Categorías</h4>
   <article class="max-w-4xl">
     <ul class="space-y-2">
@@ -93,16 +93,16 @@ const fullCategories = [
   { name: "Alimentos", icon: "fa-bread-slice", examples: ["Bimbo", "Gamesa", "Sabritas", "Marinela"] },
   { name: "Aseguradoras", icon: "fa-shield-alt", examples: ["GNP", "AXA", "MetLife", "Zurich"] },
   { name: "Automotriz", icon: "fa-car", examples: ["Toyota", "Nissan", "Volkswagen", "General Motors"] },
-  { name: "Bancos", icon: "hi-outline-office-building", examples: ["Banamex", "BBVA", "Santander", "HSBC"] },
+  { name: "Bancos", icon: "bi-bank2", examples: ["Banamex", "BBVA", "Santander", "HSBC"] },
   { name: "Banquetes", icon: "fa-utensils", examples: ["Salones García", "Banquetes El Globo", "Salones Fiesta", "Banquetes Laredo"] },
   { name: "Beneficencias y Fundaciones", icon: "fa-heart", examples: ["UNICEF México", "Cruz Roja Mexicana", "Teletón", "Fondo UNO"] },
-  { name: "Combustibles", icon: "hi-outline-sparkles", examples: ["Pemex", "BP", "Shell", "Gulf"] },
+  { name: "Combustibles", icon: "fa-gas-pump", examples: ["Pemex", "BP", "Shell", "Gulf"] },
   { name: "Comida y Restaurantes", icon: "fa-utensils", examples: ["Sanborns", "Vips", "Toks", "Applebee's"] },
-  { name: "Construcción y/o constructoras", icon: "hi-outline-home-modern", examples: ["Cemex", "Home Depot", "Comex", "Grupo Lamosa"] },
+  { name: "Construcción y/o constructoras", icon: "md-build-sharp", examples: ["Cemex", "Home Depot", "Comex", "Grupo Lamosa"] },
   { name: "Consumibles", icon: "fa-soap", examples: ["Scotch-Brite", "Cloralex", "Fábrica de Jabón La Corona", "Kimberly-Clark"] },
   { name: "Deportes", icon: "fa-futbol", examples: ["Sport City", "Martí", "Decathlon", "Nike Store"] },
   { name: "Educación", icon: "fa-graduation-cap", examples: ["UNAM", "Tec de Monterrey", "UVM", "UNITEC"] },
-  { name: "Electrónicos", icon: "hi-outline-desktop-computer", examples: ["Liverpool Electrónicos", "Best Buy", "Sams Club", "Coppel"] },
+  { name: "Electrónicos", icon: "gi-electrical-resistance", examples: ["Liverpool Electrónicos", "Best Buy", "Sams Club", "Coppel"] },
   { name: "Energías Limpias", icon: "fa-leaf", examples: ["Iberdrola", "Enel Green Power", "Acciona Energía", "Engie"] },
   { name: "Eventos", icon: "fa-ticket-alt", examples: ["Ticketmaster", "Boletia", "Superboletos", "Eticket"] },
   { name: "Farmacéutico", icon: "fa-pills", examples: ["Farmacias del Ahorro", "Farmacias Benavides", "Farmacias Similares", "Farmacias Guadalajara"] },
@@ -117,9 +117,9 @@ const fullCategories = [
   { name: "Paquetería y Correos", icon: "fa-truck", examples: ["FedEx", "DHL", "Estafeta", "Correos de México"] },
   { name: "Persona Física", icon: "fa-user", examples: ["Consultores Independientes", "Freelancers", "Artesanos", "Profesionistas"] },
   { name: "Productos Generales", icon: "fa-box-open", examples: ["Walmart", "Soriana", "Chedraui", "La Comer"] },
-  { name: "Redes Sociales", icon: "hi-outline-hashtag", examples: ["Facebook", "Instagram", "Twitter", "TikTok"] },
+  { name: "Redes Sociales", icon: "io-share-social-sharp", examples: ["Facebook", "Instagram", "Twitter", "TikTok"] },
   { name: "Religión", icon: "fa-church", examples: ["Arquidiócesis de México", "Iglesia Cristiana", "Sinagoga Histórica", "Mezquita Tarek Ibn Ziyad"] },
-  { name: "Ropa, Calzado y Zapatos", icon: "hi-outline-clothing", examples: ["Zara", "H&M", "Liverpool", "Suburbia"] },
+  { name: "Ropa, Calzado y Zapatos", icon: "gi-clothes", examples: ["Zara", "H&M", "Liverpool", "Suburbia"] },
   { name: "Salud", icon: "fa-hospital", examples: ["Hospital Ángeles", "Médica Sur", "ABC Medical Center", "Star Médica"] },
   { name: "Salud y Belleza Estética", icon: "fa-spa", examples: ["Belcolade", "Dermatológicos MD", "Clínicas de Belleza", "HairX"] },
   { name: "Servicios", icon: "fa-concierge-bell", examples: ["Uber", "Didi", "Rappi", "Airbnb"] },
@@ -131,8 +131,8 @@ const fullCategories = [
   { name: "Tiendas Departamentales", icon: "fa-store", examples: ["Liverpool", "Palacio de Hierro", "Sears", "Suburbia"] },
   { name: "Todo para bebé", icon: "fa-baby", examples: ["Baby's Room", "Bebé Store", "Kids Corner", "Toys R Us Bebé"] },
   { name: "Transportes", icon: "fa-bus", examples: ["ADO", "ETN", "Omnibus de México", "Volaris"] },
-  { name: "Turismo", icon: "hi-outline-globe", examples: ["Cancún Travel", "Best Day", "Despegar", "Kayak"] },
-  { name: "Veterinaria y Zootecnia", icon: "hi-outline-paw", examples: ["Hospital Veterinario UNAM", "Mascotitas", "Petco", "Veterinaria San Francisco"] }
+  { name: "Turismo", icon: "md-travelexplore-sharp", examples: ["Cancún Travel", "Best Day", "Despegar", "Kayak"] },
+  { name: "Veterinaria y Zootecnia", icon: "io-paw-sharp", examples: ["Hospital Veterinario UNAM", "Mascotitas", "Petco", "Veterinaria San Francisco"] }
 ];
 
 </script>
