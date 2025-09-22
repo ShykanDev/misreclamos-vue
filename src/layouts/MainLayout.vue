@@ -8,7 +8,30 @@
       </svg>
 
       <div class="flex w-full">
-        <span   class="text-xl font-bold text-rose-500 animate__animated animate__zoomInLeft"> mis</span><span v-if="toggleDomain"  class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[250ms] animate__animated animate__zoomInLeft">reclamos</span><span v-if="!toggleDomain"  class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[250ms] animate__animated animate__zoomInLeft">denuncias</span><span :key="toggleDomain" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800 animate-delay-[500ms] animate__animated animate__zoomInRight">.com</span>
+        <router-link
+  to="/"
+  class="inline-flex items-center"
+>
+  <span class="text-xl font-bold text-rose-500 animate__animated animate__zoomInLeft">mis</span>
+  <span
+    v-if="toggleDomain"
+    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[50ms] animate__animated animate__zoomInLeft"
+  >
+    reclamos
+  </span>
+  <span
+    v-else
+    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[50ms] animate__animated animate__zoomInLeft"
+  >
+    denuncias
+  </span>
+  <span
+    :key="toggleDomain"
+    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800 animate-delay-[500ms] animate__animated animate__zoomInRight"
+  >
+    .com
+  </span>
+</router-link>
 
       </div>
     </div>
@@ -57,7 +80,7 @@
         </button>
       </div>
       <RouterLink
-        to="/registro"
+        to="/register"
         class="px-4 py-2 text-sm font-medium text-rose-900 rounded-lg border border-rose-600 transition-colors hover:bg-rose-50"
       >
         Registrarse
@@ -88,7 +111,7 @@
     <slot name="main"></slot>
   </main>
 
-  <footer class="py-12 text-rose-900 bg-white border-t-4 border-rose-900">
+  <footer class="py-12 text-rose-900 bg-white border-t-4 border-rose-600">
   <div class="container px-4 mx-auto">
     <!-- Logo y descripción principal -->
     <div class="flex flex-col items-center mb-12 text-center">
@@ -163,7 +186,6 @@ const toggleDomain = ref(false);
 const getRandomNumber = () => {
   setInterval(() => {
     toggleDomain.value = !toggleDomain.value;
-    console.log(toggleDomain.value);
   }, 5000);
 }
 onMounted(() => {

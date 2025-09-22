@@ -4,6 +4,29 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCmtsTYySDPpIQ6ASIn0N9LHFqUwm-MLLo",
+  authDomain: "mis-reclamos.firebaseapp.com",
+  projectId: "mis-reclamos",
+  storageBucket: "mis-reclamos.firebasestorage.app",
+  messagingSenderId: "3807456076",
+  appId: "1:3807456076:web:3bfab857b83e51a6217de9",
+  measurementId: "G-CM4YRNN50E"
+};
+
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebaseApp);
+
+
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { FaFlag, RiZhihuFill,
   // Font Awesome (fa-*)
@@ -51,7 +74,6 @@ import { FaFlag, RiZhihuFill,
   FaBus,
   FaUmbrellaBeach,
   FaDog,
-  // Heroicons (hi-outline-*)
   HiSolidLightBulb,
   HiSolidOfficeBuilding,
   HiSolidDesktopComputer,
@@ -78,7 +100,9 @@ import { FaFlag, RiZhihuFill,
   GiClothes,
   MdTravelexploreSharp,
   IoPawSharp,
-  MdAddRound
+  MdAddRound,
+  MdTextrotationnoneRound,
+  MdAlternateemailOutlined
  } from "oh-vue-icons/icons";
 
 addIcons(FaFlag, RiZhihuFill,
@@ -154,7 +178,9 @@ addIcons(FaFlag, RiZhihuFill,
   GiClothes,
   MdTravelexploreSharp,
   IoPawSharp,
-  MdAddRound
+  MdAddRound,
+  MdTextrotationnoneRound,
+  MdAlternateemailOutlined
 
 );
 

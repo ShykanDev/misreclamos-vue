@@ -1,9 +1,9 @@
 <template>
    <MainLayout>
     <template #main>
-      <section class="px-4 py-8 bg-gradient-to-r from-gray-50 to-gray-100 sm:px-6 lg:px-8">
-  <div class="mx-auto l">
-    <div class="px-4 py-3 mx-auto l sm:px-6 lg:px-8">
+      <section class="px-4 py-1.5 bg-gradient-to-r from-gray-50 to-gray-100 sm:px-6 lg:px-8">
+  <div class="mx-auto">
+    <div class="px-4 py-3 mx-auto sm:px-2 lg:px-3">
   <div class="grid grid-cols-1 gap-12 items-center lg:grid-cols-2">
     <!-- Contenido textual (izquierda en PC) -->
     <div class="text-center lg:text-left">
