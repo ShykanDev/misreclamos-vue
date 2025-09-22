@@ -1,6 +1,8 @@
 <template>
     <div class="flex flex-col justify-center p-4 w-full bg-white items-left">
-  <h4 class="inline-block sticky top-9 z-30 mb-6 text-2xl font-semibold text-rose-800 bg-white">Categorías</h4>
+      <div class="flex sticky top-5 z-30 rounded-2xl items-left">
+        <h4 class="inline-block px-1 mb-6 text-2xl font-semibold text-rose-800 rounded-2xl backdrop-blur-md bg-white/55">Categorías</h4>
+      </div>
   <article class="max-w-4xl">
     <ul class="space-y-2">
       <li
@@ -20,11 +22,14 @@
             <li
               v-for="example in category.examples"
               :key="example"
-              class="px-2 py-1 text-sm text-rose-800 rounded transition-colors hover:bg-rose-50"
+              class="px-2 py-1 text-sm text-rose-800 rounded transition-colors hover:bg-rose-50 hover:cursor-pointer"
             >
               {{ example }}
             </li>
-            <button class="px-2 py-1 text-sm text-white bg-rose-800 rounded-3xl transition-colors hover:bg-rose-700 hover:cursor-pointer">Crear nuevo reclamo para  {{ category.name }}</button>
+            <button class="flex items-center px-2 py-1 text-sm text-white bg-rose-800 rounded-3xl transition-colors hover:bg-rose-700 hover:cursor-pointer">
+              <v-icon name="md-add-round" scale="1" />
+              <span>Nuevo reclamo para {{ category.name }}</span>
+            </button>
           </ul>
         </div>
       </li>
@@ -132,7 +137,8 @@ const fullCategories = [
   { name: "Todo para bebé", icon: "fa-baby", examples: ["Baby's Room", "Bebé Store", "Kids Corner", "Toys R Us Bebé"] },
   { name: "Transportes", icon: "fa-bus", examples: ["ADO", "ETN", "Omnibus de México", "Volaris"] },
   { name: "Turismo", icon: "md-travelexplore-sharp", examples: ["Cancún Travel", "Best Day", "Despegar", "Kayak"] },
-  { name: "Veterinaria y Zootecnia", icon: "io-paw-sharp", examples: ["Hospital Veterinario UNAM", "Mascotitas", "Petco", "Veterinaria San Francisco"] }
+  { name: "Veterinaria y Zootecnia", icon: "io-paw-sharp", examples: ["Hospital Veterinario UNAM", "Mascotitas", "Petco", "Veterinaria San Francisco"] },
+  { name: "Otro", icon: "", examples: ["Hospital Veterinario UNAM", "Mascotitas", "Petco", "Veterinaria San Francisco"] }
 ];
 
 </script>

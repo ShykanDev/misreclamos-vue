@@ -69,7 +69,7 @@
       <section class="grid grid-cols-3 w-full">
 
         <!--Categories-->
-        <article class="overflow-y-scroll bg-blue-500 h-dvh">
+        <article class="overflow-y-scroll h-dvh">
         <CategoriesComponent/>
         </article>
 

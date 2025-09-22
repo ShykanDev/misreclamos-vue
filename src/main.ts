@@ -77,7 +77,8 @@ import { FaFlag, RiZhihuFill,
   IoShareSocialSharp,
   GiClothes,
   MdTravelexploreSharp,
-  IoPawSharp
+  IoPawSharp,
+  MdAddRound
  } from "oh-vue-icons/icons";
 
 addIcons(FaFlag, RiZhihuFill,
@@ -152,7 +153,9 @@ addIcons(FaFlag, RiZhihuFill,
   IoShareSocialSharp,
   GiClothes,
   MdTravelexploreSharp,
-  IoPawSharp
+  IoPawSharp,
+  MdAddRound
+
 );
 
 const app = createApp(App)
