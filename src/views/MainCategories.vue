@@ -66,10 +66,10 @@
   </div>
       </section>
       <!--Start of the comments UI-->
-      <section class="grid grid-cols-3 w-full">
+      <section class="grid grid-cols-1 w-full md:grid-cols-3">
 
         <!--Categories-->
-        <article class="overflow-y-scroll h-dvh">
+        <article class="">
         <CategoriesComponent/>
         </article>
 

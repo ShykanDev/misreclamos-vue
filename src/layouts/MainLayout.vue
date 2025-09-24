@@ -3,40 +3,10 @@
   <section class="flex justify-between items-center px-4 py-3 mx-auto max-w-7xl sm:px-6 lg:px-8">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
-      <svg class="w-8 h-8 text-rose-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-
-      <div class="flex w-full">
-        <router-link
-  to="/"
-  class="inline-flex items-center"
->
-  <span class="text-xl font-bold text-rose-500 animate__animated animate__zoomInLeft">mis</span>
-  <span
-    v-if="toggleDomain"
-    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[50ms] animate__animated animate__zoomInLeft"
-  >
-    reclamos
-  </span>
-  <span
-    v-else
-    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[50ms] animate__animated animate__zoomInLeft"
-  >
-    denuncias
-  </span>
-  <span
-    :key="toggleDomain"
-    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800 animate-delay-[500ms] animate__animated animate__zoomInRight"
-  >
-    .com
-  </span>
-</router-link>
-
-      </div>
+      <AnimatedLogo />
     </div>
 
-    <!-- Navegación principal (oculta en móvil)-->
+    <!-- Navigation (hidden in mobile)-->
     <nav class="hidden space-x-8 md:flex">
       <RouterLink
         to="/"
@@ -64,7 +34,7 @@
       </RouterLink>
     </nav>
 
-    <!-- Formulario de búsqueda y botones (ocultos en móvil) -->
+    <!-- Search and buttons (hidden in mobile) -->
     <div class="hidden md:flex md:items-center md:space-x-4">
       <div class="relative">
         <input
@@ -80,34 +50,55 @@
         </button>
       </div>
       <RouterLink
+      v-if="auth.currentUser === null"
         to="/register"
         class="px-4 py-2 text-sm font-medium text-rose-900 rounded-lg border border-rose-600 transition-colors hover:bg-rose-50"
       >
         Registrarse
       </RouterLink>
       <RouterLink
+      v-if="auth.currentUser === null"
         to="/login"
         class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700"
       >
         Iniciar Sesión
       </RouterLink>
     </div>
+    <button v-if="auth.currentUser !== null" @click="signOut()" class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700">Cerrar Sesión</button>
 
-    <!-- Botón de menú móvil (visible solo en móvil) -->
+    <!-- Mobile Menu Button  (visible only in mobile)-->
     <button
       type="button"
       class="p-2 text-gray-600 rounded-md transition-colors md:hidden hover:text-rose-900 focus:outline-none focus:ring-2 focus:ring-rose-500"
       @click="toggleMobileMenu"
     >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
+    <v-icon v-if="!mobileMenu" name='hi-menu' class="animate__animated animate__rubberBand animate-duration-[.1s]" />
+    <v-icon v-else name='io-close' class="animate__animated animate__rotateIn animate-duration-[.2s]"/>
     </button>
+
   </section>
 </header>
 
 
   <main>
+       <!-- Mobile Menu (hidden in large screens) -->
+       <article class="fixed inset-0 z-40 bg-white transition-transform duration-300 ease-out md:hidden min-h-dvh"
+       :class="{'translate-x-full': !mobileMenu}"
+       >
+       <nav v-if="mobileMenu" class="flex flex-col mt-[1rem] min-h-dvh  justify-evenly items-center">
+      <RouterLink
+      v-for="(e,index) in links"
+      :key="index"
+        :to="e.to "
+        class="relative px-3 py-2 text-gray-600 transition-colors hover:text-rose-900 group animate-fade-left"
+     :style="`animation-delay: ${index * 90}ms`"
+        active-class="font-medium text-rose-900"
+      >
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-rose-600 transition-all group-hover:w-full">{{ e.label }}</span>
+      </RouterLink>
+
+    </nav>
+      </article>
     <slot name="main"></slot>
   </main>
 
@@ -115,9 +106,7 @@
   <div class="container px-4 mx-auto">
     <!-- Logo y descripción principal -->
     <div class="flex flex-col items-center mb-12 text-center">
-      <a href="" class="mb-4">
-        <img src="./img/logo.gif" alt="Logo" class="w-auto h-12">
-      </a>
+      <AnimatedLogo />
       <p class="mx-auto max-w-2xl text-rose-900">
         Sitio gratuito y de uso exclusivo para revisar y compartir experiencias
       </p>
@@ -178,10 +167,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import AnimatedLogo from '@/components/Header/AnimatedLogo.vue';
+import { nextTick, onMounted, ref } from 'vue';
+import { RouterLink, useRouter } from 'vue-router';
+import { getAuth } from 'firebase/auth';
 
-
+const router = useRouter();
+const auth = getAuth();
 const toggleDomain = ref(false);
 const getRandomNumber = () => {
   setInterval(() => {
@@ -191,6 +183,49 @@ const getRandomNumber = () => {
 onMounted(() => {
   getRandomNumber();
 })
+
+const mobileMenu = ref(false);
+const toggleMobileMenu = () => {
+  mobileMenu.value = !mobileMenu.value;
+}
+
+const signOut = async() => {
+  try {
+    await auth.signOut();
+    await nextTick();
+    router.push('/login');
+  } catch (error) {
+    console.log(error);
+  }
+}
+const links = [
+  {
+    to: "/",
+    label: "Inicio"
+  },
+  {
+    to: "/register",
+    label: "Registrarse"
+  },
+  {
+    to: "/us",
+    label: "Nosotros"
+  },
+  {
+    to: "/comentarios",
+    label: "Comentarios"
+  },
+  {
+    to: "/ayuda",
+    label: "Ayuda"
+  },
+  {
+    to:"/contacto",
+    label:"Contacto"
+  }
+];
+
+
 </script>
 
 <style scoped></style>

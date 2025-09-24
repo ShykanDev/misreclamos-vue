@@ -1,10 +1,10 @@
 <template>
-    <div class="flex flex-col justify-center p-4 w-full bg-white items-left">
+    <div class="">
       <div class="flex sticky top-5 z-30 rounded-2xl items-left">
         <h4 class="inline-block px-1 mb-6 text-2xl font-semibold text-rose-800 rounded-2xl backdrop-blur-md bg-white/55">Categorías</h4>
       </div>
-  <article class="max-w-4xl">
-    <ul class="space-y-2">
+  <article class="max-w-4xl h-full">
+    <ul class="flex overflow-y-scroll flex-col gap-2 items-left">
       <li
         v-for="category in fullCategories.sort((a, b) => a.name.localeCompare(b.name))"
         :key="category.name"

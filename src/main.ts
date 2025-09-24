@@ -102,7 +102,10 @@ import { FaFlag, RiZhihuFill,
   IoPawSharp,
   MdAddRound,
   MdTextrotationnoneRound,
-  MdAlternateemailOutlined
+  MdAlternateemailOutlined,
+  GiMegaphone,
+  HiMenu,
+  IoClose
  } from "oh-vue-icons/icons";
 
 addIcons(FaFlag, RiZhihuFill,
@@ -180,8 +183,10 @@ addIcons(FaFlag, RiZhihuFill,
   IoPawSharp,
   MdAddRound,
   MdTextrotationnoneRound,
-  MdAlternateemailOutlined
-
+  MdAlternateemailOutlined,
+  GiMegaphone,
+  HiMenu,
+  IoClose
 );
 
 const app = createApp(App)
