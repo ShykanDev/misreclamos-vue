@@ -50,21 +50,21 @@
         </button>
       </div>
       <RouterLink
-      v-if="auth.currentUser === null"
+      v-if="!useLogginStore().getIsUserLoggedIn"
         to="/register"
         class="px-4 py-2 text-sm font-medium text-rose-900 rounded-lg border border-rose-600 transition-colors hover:bg-rose-50"
       >
         Registrarse
       </RouterLink>
       <RouterLink
-      v-if="auth.currentUser === null"
+      v-if="!useLogginStore().getIsUserLoggedIn"
         to="/login"
         class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700"
       >
         Iniciar Sesión
       </RouterLink>
     </div>
-    <button v-if="auth.currentUser !== null" @click="signOut()" class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700">Cerrar Sesión</button>
+    <button v-if="useLogginStore().getIsUserLoggedIn" @click="signOut()" class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700">Cerrar Sesión</button>
 
     <!-- Mobile Menu Button  (visible only in mobile)-->
     <button
@@ -171,6 +171,7 @@ import AnimatedLogo from '@/components/Header/AnimatedLogo.vue';
 import { nextTick, onMounted, ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { getAuth } from 'firebase/auth';
+import { useLogginStore } from '@/stores/loggin';
 
 const router = useRouter();
 const auth = getAuth();
@@ -194,6 +195,7 @@ const signOut = async() => {
     await auth.signOut();
     await nextTick();
     router.push('/login');
+    useLogginStore().setUserLoggedIn(false);
   } catch (error) {
     console.log(error);
   }

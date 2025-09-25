@@ -28,7 +28,7 @@
             </li>
             <button class="flex items-center px-2 py-1 text-sm text-white bg-rose-800 rounded-3xl transition-colors hover:bg-rose-700 hover:cursor-pointer">
               <v-icon name="md-add-round" scale="1" />
-              <span>Nuevo reclamo para {{ category.name }}</span>
+              <RouterLink :to="`/create-comment/${category.name}`">Nuevo reclamo para {{ category.name }}</RouterLink>
             </button>
           </ul>
         </div>

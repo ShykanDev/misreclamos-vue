@@ -19,10 +19,15 @@ const router = createRouter({
       component: ()=> import('../views/LoginView.vue')
     },
     {
-      path:'/verify-email',
-      name:'verifyEmail',
+      path:'/verify',
+      name:'verify',
       component: () => import('../views/VerifyEmailView.vue')
-    }
+    },
+    {
+      path:'/create-comment/:category?',
+      name:'create-comment',
+      component: () => import('../views/CreateComment.vue')
+    },
   ],
 })
 

@@ -113,6 +113,16 @@
       <!-- Botón de reenviar correo (opcional) -->
     </div>
   </div>
+  <!--Reset Password
+  -->
+  <section class="flex flex-col justify-center items-center p-4 bg-amber-50 rounded-xl">
+    <h4>Restablecer Contraseña</h4>
+    <p>Por favor, ingrese su correo electrónico y le enviaremos un enlace para restablecer su contraseña.</p>
+    <form @submit.prevent="handleResetPassword">
+      <input v-model="email" class="px-4 py-2 w-full rounded-xl border border-gray-300 transition-all outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500" type="email" placeholder="Correo electrónico">
+      <button class="px-4 py-2 mt-2 w-full font-bold text-white bg-gradient-to-r from-pink-500 to-red-500 rounded-xl transition-all hover:from-pink-600 hover:to-red-600 focus:ring-4 focus:ring-pink-300" type="submit">Enviar</button>
+    </form>
+  </section>
 
     </div>
   </div>
@@ -122,8 +132,20 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import MainLayout from '@/layouts/MainLayout.vue';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail   } from 'firebase/auth';
+
+import 'notyf/notyf.min.css';
+import { Notyf } from 'notyf';
+import { useLogginStore } from '@/stores/loggin';
+
+const notyf = new Notyf ({
+  position: {
+    x: 'center',
+    y: 'center'
+  },
+  duration: 6000,
+  dismissible: true,
+});
     // Estado del formulario
     const email = ref('');
     const password = ref('');
@@ -166,18 +188,32 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
             if (!isUserEmailVerified.value) {
               showVerifyEmail.value = true;
             }
+            useLogginStore().setUserEmailVerified(user.emailVerified);
+            useLogginStore().setUserLoggedIn(true);
+            notyf.success(`Le damos la bienvenida ${user.displayName}`);
             console.log(user)
           })
+
           .catch((error) => {
             const errorCode = error.code;
-            const errorMessage = error.message;
+            notyf.error(`Error al iniciar sesión, error: ${errorCode}`);
             console.log(`ErrorCode: ${errorCode}`);
           });
       } else {
         console.log('Formulario inválido');
+        notyf.error('Formulario inválido');
       }
     };
 
+    const handleResetPassword = async() => {
+      try {
+          await sendPasswordResetEmail(auth, email.value);
+          console.log('Correo enviado');
+      } catch (error) {
+          console.log(error);
+          notyf.error(`Error al enviar correo, error: ${error}`);
+          }
+    }
 
 </script>
 
