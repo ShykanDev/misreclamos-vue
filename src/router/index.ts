@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'main',
+      name: 'home',
       component: ()=> import('../views/MainCategories.vue')
     },
     {

@@ -72,8 +72,8 @@
       class="p-2 text-gray-600 rounded-md transition-colors md:hidden hover:text-rose-900 focus:outline-none focus:ring-2 focus:ring-rose-500"
       @click="toggleMobileMenu"
     >
-    <v-icon v-if="!mobileMenu" name='hi-menu' class="animate__animated animate__rubberBand animate-duration-[.1s]" />
-    <v-icon v-else name='io-close' class="animate__animated animate__rotateIn animate-duration-[.2s]"/>
+    <v-icon v-if="!mobileMenu" name='hi-menu' class="animate__animated animate__rubberBand animate-duration-[.4s]" />
+    <v-icon v-else name='io-close' class="animate__animated animate__rotateIn animate-duration-[.4s]"/>
     </button>
 
   </section>

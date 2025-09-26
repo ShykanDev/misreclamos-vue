@@ -2,94 +2,121 @@
   <MainLayout>
     <template #main>
       <section class="flex justify-center items-center p-6 min-h-screen transition-all duration-300 bgStyle"
-      :class="{ 'bg-black/45': isDark, 'bg-white/95': !isDark }"
-      >
-  <div @mouseenter="isDark = true" @mouseleave="isDark = false" class="p-8 mx-auto rounded-2xl border-2 border-purple-400 shadow-xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-5 hover:bg-purple-50/80 hover:backdrop-blur-none w-2xl hover:w-[80%] hover:shadow-2xl md:p-12">
-    <!-- Título -->
-    <h2 class="mb-2 text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600 md:text-4xl">
-      Añadir un nuevo reclamo para la categoría <span class="font-bold text-pink-500">{{ category }}</span>
-    </h2>
-    <!-- Subtítulo -->
-    <p class="mb-8 font-medium text-center text-gray-600">
-      Tu opinión nos ayuda a <span class="text-pink-500">mejorar</span>.
-    </p>
+        :class="{ 'bg-black/25': isDark, 'bg-white/95': !isDark }">
+        <div @mouseenter="isDark = true"
+          class="p-8 mx-auto rounded-2xl border-2 border-blue-400 shadow-xl backdrop-blur-sm transition-all duration-300 w-2xl md:p-12"
+          :class="{ '-translate-y-5 w-[70%] bg-blue-50/80 backdrop-blur-none': isDark }">
+          <!-- Título -->
+          <h2
+            class="mb-2 text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600 md:text-4xl">
+            Añadir un nuevo reclamo para la categoría <span class="italic font-bold text-blue-700">{{ category }}</span>
+          </h2>
+          <!-- Subtítulo -->
+          <p class="mb-8 font-medium text-center text-gray-600">
+            Comparta sus experiencias y hagamos visible lo que necesita cambiar en servicios, empresas, productos y más.
+          </p>
 
-    <!-- Formulario -->
-    <form class="space-y-6">
-      <!-- Campo: Nombre -->
-      <div class="space-y-2">
-        <label for="title" class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-pink-600">Título</label>
-        <input
-          type="text"
-          id="title"
-          class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent hover:border-pink-200 hover:shadow-sm"
-          placeholder="Me prometieron que me daban un descuento de 20%"
-        />
-      </div>
+          <!-- Formulario -->
+          <form class="space-y-6" @submit.prevent="sendComplaint">
+            <!-- Campo: Nombre -->
+            <div class="space-y-2">
+              <label for="title"
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Título</label>
+              <input type="text" id="title"
+                v-model="complaintObject.title"
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
+                placeholder="Me prometieron que me daban un descuento de 20%" />
+            </div>
 
-      <!-- Campo: Categoría -->
-      <div class="space-y-2">
-        <label for="category" class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-pink-600">Categoría</label>
-        <select
-          id="category"
-          class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 group focus:ring-pink-500 focus:border-transparent hover:border-pink-200 hover:shadow-sm"
-        >
-          <option value="" disabled selected>Seleccione una categoría</option>
-          <option class="text-gray-700 group-hover:text-pink-600" v-for="category in fullCategories" :key="category.name" :value="category.name">
-            {{ category.name }}
-          </option>
-        </select>
-      </div>
+            <!-- Campo: Categoría -->
+            <div class="space-y-2">
+              <label for="category"
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Categoría</label>
+              <select v-model="complaintObject.category" id="category"
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 group focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm">
+                <option value="" disabled selected>Seleccione una categoría</option>
+                <option  class="text-gray-200 group-hover:text-blue-600" v-for="category in fullCategories"
+                  :key="category.name" :value="category.name">
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
 
-      <!-- Campo: Descripción -->
-      <div class="space-y-2">
-        <label for="comment" class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-pink-600">Descripción</label>
-        <textarea
-          id="comment"
-          rows="5"
-          class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent hover:border-pink-200 hover:shadow-sm"
-          placeholder="E.g: Todo comienza cuando la empresa (x) no cumple con sus promesas, debido a que..."
-        ></textarea>
-      </div>
+            <!-- Campo: Descripción -->
+            <div class="space-y-2">
+              <label for="comment"
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Descripción</label>
+              <textarea id="comment" rows="5"
+                v-model="complaintObject.description"
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
+                placeholder="E.g: Todo comienza cuando la empresa (x) no cumple con sus promesas, debido a que..."></textarea>
+            </div>
 
-      <label class="custum-file-upload" for="file">
-  <div class="icon">
-  <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24"><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"> <path fill="" d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z" clip-rule="evenodd" fill-rule="evenodd"></path> </g></svg>
-  </div>
-  <div class="text">
-     <span>Haga clic para subir una imagen</span>
-     </div>
-     <input type="file" id="file">
-  </label>
+            <div class="flex justify-between items-center w-full">
+              <button v-if="imageSelected" @click="renewImage"
+                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">Elegir
+                Nueva imagen</button>
+              <button v-if="imageSelected" @click="removeImage"
+                class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700">Quitar
+                imagen</button>
+            </div>
+            <label v-show="!imageSelected" class="custum-file-upload" for="file">
+              <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24">
+                  <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                  <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path fill=""
+                      d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                      clip-rule="evenodd" fill-rule="evenodd"></path>
+                  </g>
+                </svg>
+              </div>
+              <div class="text">
+                <span>Haga clic para subir una imagen</span>
+              </div>
+              <input @change="handleFileInputChange" accept="image/*" ref="imgFileInput" type="file" id="file">
+            </label>
+            <img v-if="imageSelected" :src="imageSelected" :key="imageSelected" class="animate-fade-up w-sm"
+              alt="Imagen seleccionada">
 
-      <!-- Recordatorio -->
-      <div class="p-4 rounded-lg border-l-4 border-pink-500 transition-colors duration-200 bg-pink-50/80 hover:bg-pink-100 hover:border-pink-600">
-        <p class="text-sm font-medium text-pink-700">
-          <strong class="font-bold">Importante:</strong> Sé respetuoso. Los comentarios son revisados por nuestro equipo.
-        </p>
-      </div>
+            <!-- Recordatorio -->
+            <div
+              class="p-4 rounded-lg border-l-4 border-blue-500 transition-colors duration-200 bg-blue-50/80 hover:bg-blue-100 hover:border-blue-600">
+              <p class="text-sm font-medium text-blue-700">
+                <strong class="font-bold">Importante:</strong> Sé respetuoso. Los comentarios son revisados por nuestro
+                equipo.
+              </p>
+            </div>
 
-      <!-- Botón de envío -->
-      <div class="flex justify-center">
-        <button
-          type="submit"
-          class="px-8 py-3 font-medium text-white bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg transition-all duration-200 transform hover:from-pink-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:shadow-sm"
-        >
-          Enviar reclamo
-        </button>
-      </div>
-    </form>
-  </div>
-</section>
-  </template>
-</MainLayout>
+            <!-- Botón de envío -->
+            <div class="flex justify-center">
+              <button type="submit"
+                class="px-8 py-3 font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg transition-all duration-200 transform hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:shadow-sm">
+                Enviar reclamo
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </template>
+  </MainLayout>
 </template>
 
 <script setup lang="ts">
 import MainLayout from '@/layouts/MainLayout.vue';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import 'notyf/notyf.min.css';
 
+const notyf = new Notyf({
+  position: {
+    x: 'center',
+    y: 'bottom'
+  },
+  duration: 5000,
+  dismissible: true,
+})
 const route = useRoute();
 const category = route.params.category || '';
 const isDark = ref(false);
@@ -145,16 +172,74 @@ const fullCategories = [
 ];
 
 const selectedCategory = ref('');
+const imageSelected = ref();
+const imgFileInput = ref<HTMLInputElement | null>(null);
 
-const onSubmit = () => {
-  console.log('Formulario enviado');
-};
+const handleFileInputChange = (e: Event) => {
+  if (e.target) {
+    console.log(e.target.files[0])
+    imageSelected.value = URL.createObjectURL(e.target.files[0])
+  }
+}
+
+const removeImage = () => {
+  imageSelected.value = ''
+}
+const renewImage = () => {
+  imgFileInput.value?.click()
+}
+const router = useRouter();
+//Verify that param from query is valid and exists in fullCategories
+const verifyParamIsValid = () => {
+  const param = route.params.category;
+  if(!param) router.push({name:'home'})
+  if(!fullCategories.find(e => e.name === param)) router.push({name:'home'})
+
+}
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { Notyf } from 'notyf';
+
+const auth = getAuth();
+const complaintObject =  reactive({
+  userName: auth.currentUser?.displayName || 'Anonimo',
+  title:'',
+  category:'',
+  description:'',
+  image:''
+})
+
+const db = getFirestore();
+const complaintsCollection = collection(db, 'complaints');
+
+const sendComplaint = () => {
+
+
+  addDoc(complaintsCollection,complaintObject)
+  .then((docRef)=>{
+    console.log('Doc was sent successfully')
+    console.log('docRef:',docRef);
+    notyf.success('Reclamo enviado correctamente')
+  })
+  .catch((error)=>{
+    console.log('Error sending doc:',error)
+    notyf.error('Error al enviar el reclamo: ' + error)
+  }).finally(()=>{
+    console.log('finally')
+  })
+}
+
+
+
+onMounted(() => {
+  verifyParamIsValid();
+})
 
 </script>
 
 <style scoped>
-.bgStyle{
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%236c0098' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
+.bgStyle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%236c0098' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 
@@ -173,7 +258,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: rgba(255, 255, 255, 1);
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px rgba(0,0,0,0.1);
+  box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
 }
 
 .custum-file-upload .icon {
