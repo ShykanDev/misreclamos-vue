@@ -1,11 +1,12 @@
 <template>
   <MainLayout>
     <template #main>
+      <LoaderA v-show="loading" class="flex fixed inset-0 z-40 justify-center items-center bg-blue-950/50" />
       <section class="flex justify-center items-center p-6 min-h-screen transition-all duration-300 bgStyle"
         :class="{ 'bg-black/25': isDark, 'bg-white/95': !isDark }">
         <div @mouseenter="isDark = true"
-          class="p-8 mx-auto rounded-2xl border-2 border-blue-400 shadow-xl backdrop-blur-sm transition-all duration-300 w-2xl md:p-12"
-          :class="{ '-translate-y-5 w-[70%] bg-blue-50/80 backdrop-blur-none': isDark }">
+          class="p-8 mx-auto rounded-2xl border-2 border-blue-400 shadow-xl transition-all duration-300 w-2xl md:p-12"
+          :class="{ '-translate-y-5 w-[70%] bg-blue-50/90 backdrop-blur-none': isDark }">
           <!-- Título -->
           <h2
             class="mb-2 text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600 md:text-4xl">
@@ -54,9 +55,12 @@
 
             <div class="flex justify-between items-center w-full">
               <button v-if="imageSelected" @click="renewImage"
+              type="button"
                 class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">Elegir
                 Nueva imagen</button>
+
               <button v-if="imageSelected" @click="removeImage"
+              type="button"
                 class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700">Quitar
                 imagen</button>
             </div>
@@ -77,7 +81,7 @@
               </div>
               <input @change="handleFileInputChange" accept="image/*" ref="imgFileInput" type="file" id="file">
             </label>
-            <img v-if="imageSelected" :src="imageSelected" :key="imageSelected" class="animate-fade-up w-sm"
+            <img v-if="imageSelected" :src="imageSelected" :key="imageSelected" class="animate-bounce animate-once w-sm"
               alt="Imagen seleccionada">
 
             <!-- Recordatorio -->
@@ -107,12 +111,13 @@
 import MainLayout from '@/layouts/MainLayout.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import imageCompression from 'browser-image-compression';
 import 'notyf/notyf.min.css';
-
+const loading = ref(false);
 const notyf = new Notyf({
   position: {
     x: 'center',
-    y: 'bottom'
+    y: 'top',
   },
   duration: 5000,
   dismissible: true,
@@ -171,14 +176,18 @@ const fullCategories = [
   { name: "Otro", icon: "", examples: ["Hospital Veterinario UNAM", "Mascotitas", "Petco", "Veterinaria San Francisco"] }
 ];
 
+
 const selectedCategory = ref('');
 const imageSelected = ref();
 const imgFileInput = ref<HTMLInputElement | null>(null);
 
+const imageFileValue = ref();
 const handleFileInputChange = (e: Event) => {
+
   if (e.target) {
     console.log(e.target.files[0])
     imageSelected.value = URL.createObjectURL(e.target.files[0])
+    imageFileValue.value = e.target.files[0]
   }
 }
 
@@ -193,12 +202,16 @@ const router = useRouter();
 const verifyParamIsValid = () => {
   const param = route.params.category;
   if(!param) router.push({name:'home'})
-  if(!fullCategories.find(e => e.name === param)) router.push({name:'home'})
+  if(!fullCategories.find(e => e.name === param)) {
+    notyf.error('La categoría no es valida')
+    router.push({name:'home'})
+  }
 
 }
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { Notyf } from 'notyf';
+import LoaderA from '@/animations/Loaders/LoaderA.vue';
 
 const auth = getAuth();
 const complaintObject =  reactive({
@@ -209,23 +222,77 @@ const complaintObject =  reactive({
   image:''
 })
 
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file); // convierte automáticamente a Base64 con prefijo data:
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
 const db = getFirestore();
 const complaintsCollection = collection(db, 'complaints');
+const compressedImageBase64 = ref();
+const compressImage = async () => {
+  if (!imageFileValue.value) {
+    notyf.error('No se seleccionó una imagen');
+    return false;
+  }
 
-const sendComplaint = () => {
+  const imageFile = imageFileValue.value;
+  console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
+  console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
 
+  const options = {
+    maxSizeMB: 0.4,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true
+  };
 
+  loading.value = true;
+  try {
+    const compressedFile = await imageCompression(imageFile, options);
+    console.log('compressedFile instanceof Blob', compressedFile instanceof Blob);
+    console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`);
+
+    compressedImageBase64.value = await toBase64(compressedFile);
+    console.log('compressedImageBase64', compressedImageBase64.value);
+    complaintObject.image = compressedImageBase64.value;
+    return true;
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const sendComplaint = async () => {
+
+  await compressImage();
+  if(!compressedImageBase64.value) return;
+  loading.value = true;
   addDoc(complaintsCollection,complaintObject)
   .then((docRef)=>{
     console.log('Doc was sent successfully')
     console.log('docRef:',docRef);
     notyf.success('Reclamo enviado correctamente')
+    complaintObject.category = '';
+    complaintObject.description = '';
+    complaintObject.title = '';
+    complaintObject.image = '';
+    imageSelected.value = '';
+    imageFileValue.value = null;
+    compressedImageBase64.value = '';
+    loading.value = false;
   })
   .catch((error)=>{
     console.log('Error sending doc:',error)
     notyf.error('Error al enviar el reclamo: ' + error)
   }).finally(()=>{
     console.log('finally')
+    loading.value = false;
   })
 }
 

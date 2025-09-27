@@ -72,22 +72,7 @@
         <!--Comments-->
         <article class="overflow-y-scroll h-dvh">
           <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
+          <img v-for="comment in comments" :key="comment.id" :src="comment.image" alt="">
         </article>
 
         <!--Ads-->
@@ -162,6 +147,11 @@ import 'animate.css';
 import CommentCard from '@/components/CommentCard.vue';
 import CategoriesComponent from '@/components/MainCategories/CategoriesComponent.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
+import { collection, getDocs } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { onMounted, ref } from 'vue';
+  const db = getFirestore();
+const complaintsCollection = collection(db, 'complaints');
 const categories = [
   {
     name: 'Bancos',
@@ -201,7 +191,19 @@ const categories = [
   }
 ];
 
-
+const comments = ref([]);
+const getComments = async () => {
+  const querySnapshot = await getDocs(complaintsCollection);
+  querySnapshot.forEach((doc) => {
+    comments.value.push({
+      id: doc.id,
+      ...doc.data()
+    });
+  });
+}
+onMounted(() => {
+  getComments();
+})
 </script>
 
 <style scoped></style>
