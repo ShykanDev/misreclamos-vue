@@ -77,6 +77,19 @@
           </div>
           <div v-else>
             <CommentCard  v-for="complaint in complaints" :key="complaint.id" :category="complaint.category" :content="complaint.description" :image="complaint.image" :title="complaint.title" :userName="complaint.userName" :date="complaint.createdAt" :service="complaint.service" />
+
+<!-- directive -->
+<div class="images" v-viewer>
+      <img v-for="src in images" :key="src" :src="src">
+    </div>
+    <!-- component -->
+    <viewer :images="images">
+      <img v-for="src in images" :key="src" :src="src">
+    </viewer>
+    <!-- api -->
+    <button type="button" @click="show">Click to show</button>
+
+
           </div>
         </article>
 
@@ -156,6 +169,7 @@ import { collection, getDocs, query, where, orderBy, limit, startAfter } from 'f
 import { getFirestore } from 'firebase/firestore';
 import { onMounted, ref } from 'vue';
 import type { IComplaint } from '@/Interfaces/IComplaint';
+
 
 import 'notyf/notyf.min.css';
 import { Notyf } from 'notyf';

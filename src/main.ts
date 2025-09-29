@@ -3,6 +3,8 @@ import { createPinia } from 'pinia'
 import './style.css'
 import App from './App.vue'
 import router from './router'
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -192,7 +194,7 @@ addIcons(FaFlag, RiZhihuFill,
 );
 
 const app = createApp(App)
-
+app.use(VueViewer)
 app.use(createPinia())
 app.use(router)
 app.component("v-icon", OhVueIcon);

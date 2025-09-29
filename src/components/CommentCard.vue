@@ -33,8 +33,8 @@
 
       <!-- Image -->
       <div v-if="image" class="mb-4">
-        <img :src="image" alt="" class="w-full h-auto rounded-lg"/>
-      </div>
+        <img @click="show" :src="image" alt="" class="w-full h-auto rounded-lg"/>
+            </div>
       <!-- Button -->
       <div class="flex justify-between items-center pt-4 border-t border-gray-100">
         <button
@@ -50,6 +50,8 @@
 
 <script setup lang="ts">
 import { Timestamp } from 'firebase/firestore';
+import { api as viewerApi } from 'v-viewer'
+import { ref } from 'vue';
 
 
 const convertDate = (dateParam:Timestamp) => {
@@ -95,5 +97,14 @@ userName: {
   }
 });
 
+
+const images = ref([
+      props.image
+  ])
+const show = () => {
+    viewerApi({
+     images: images.value
+    })
+  }
 const iniciales = props.userName.slice(0, 2);
 </script>
