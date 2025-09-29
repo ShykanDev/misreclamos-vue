@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <template #main>
-      <section class="px-4 py-1.5 bg-gradient-to-b from-white to-blue-50 border-b-2 border-blue-200 border-dashed sm:px-6 lg:px-8">
+      <section class="px-4 py-1.5 bg-gradient-to-b from-white to-blue-50 border-b-[1px] border-blue-100 border-dashed sm:px-6 lg:px-8">
         <div class="mx-auto">
           <div class="px-4 py-3 mx-auto sm:px-2 lg:px-3">
             <div class="grid grid-cols-1 gap-12 items-center lg:grid-cols-2">
@@ -71,8 +71,13 @@
 
         <!--Comments-->
         <article class="overflow-y-scroll h-dvh">
-          <CommentCard />
-          <img v-for="comment in comments" :key="comment.id" :src="comment.image" alt="">
+          <div v-if="loading" class="flex flex-col justify-center items-center">
+            <v-icon name="ri-loader-5-fill" class="mx-auto text-cyan-950" animation="spin" scale="7.5" speed="fast"/>
+            <p class="text-center text-slate-800">Cargando comentarios...</p>
+          </div>
+          <div v-else>
+            <CommentCard  v-for="complaint in complaints" :key="complaint.id" :category="complaint.category" :content="complaint.description" :image="complaint.image" :title="complaint.title" :userName="complaint.userName" :date="complaint.createdAt" :service="complaint.service" />
+          </div>
         </article>
 
         <!--Ads-->
@@ -147,9 +152,22 @@ import 'animate.css';
 import CommentCard from '@/components/CommentCard.vue';
 import CategoriesComponent from '@/components/MainCategories/CategoriesComponent.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where, orderBy, limit, startAfter } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { onMounted, ref } from 'vue';
+import type { IComplaint } from '@/Interfaces/IComplaint';
+
+import 'notyf/notyf.min.css';
+import { Notyf } from 'notyf';
+const  notyf = new Notyf({
+  duration: 5000,
+  position: {
+    x: 'right',
+    y: 'top'
+  },
+  dismissible: true,
+});
+
   const db = getFirestore();
 const complaintsCollection = collection(db, 'complaints');
 const categories = [
@@ -191,15 +209,28 @@ const categories = [
   }
 ];
 
-const comments = ref([]);
-const getComments = async () => {
-  const querySnapshot = await getDocs(complaintsCollection);
-  querySnapshot.forEach((doc) => {
-    comments.value.push({
-      id: doc.id,
-      ...doc.data()
+
+
+const complaints = ref<IComplaint[]>([]);
+const loading = ref(true);
+
+const lastVisibleDoc = ref(null);
+const getComments = () => {
+  const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'), limit(3));
+  getDocs(qGetComplaints).then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      complaints.value.push({
+        ...doc.data() as IComplaint
+      });
     });
-  });
+    lastVisibleDoc.value = querySnapshot.docs[querySnapshot.docs.length - 1];
+    loading.value = false;
+  }).catch((error) => {
+    console.log(error);
+    notyf.error('Error al cargar los comentarios');
+    loading.value = false;
+  })
 }
 onMounted(() => {
   getComments();

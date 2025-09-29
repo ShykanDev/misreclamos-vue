@@ -105,7 +105,8 @@ import { FaFlag, RiZhihuFill,
   MdAlternateemailOutlined,
   GiMegaphone,
   HiMenu,
-  IoClose
+  IoClose,
+  RiLoader5Fill
  } from "oh-vue-icons/icons";
 
 addIcons(FaFlag, RiZhihuFill,
@@ -186,7 +187,8 @@ addIcons(FaFlag, RiZhihuFill,
   MdAlternateemailOutlined,
   GiMegaphone,
   HiMenu,
-  IoClose
+  IoClose,
+  RiLoader5Fill
 );
 
 const app = createApp(App)

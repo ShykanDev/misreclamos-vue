@@ -5,8 +5,8 @@
       <section class="flex justify-center items-center p-6 min-h-screen transition-all duration-300 bgStyle"
         :class="{ 'bg-black/25': isDark, 'bg-white/95': !isDark }">
         <div @mouseenter="isDark = true"
-          class="p-8 mx-auto rounded-2xl border-2 border-blue-400 shadow-xl transition-all duration-300 w-2xl md:p-12"
-          :class="{ '-translate-y-5 w-[70%] bg-blue-50/90 backdrop-blur-none': isDark }">
+          class="p-8 mx-auto rounded-2xl border-2 border-blue-400 shadow-xl backdrop-blur-sm transition-all duration-300 w-2xl md:p-12"
+          :class="{ ' w-[70%] bg-blue-50/90 backdrop-blur-none': isDark }">
           <!-- Título -->
           <h2
             class="mb-2 text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600 md:text-4xl">
@@ -27,6 +27,15 @@
                 v-model="complaintObject.title"
                 class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
                 placeholder="Me prometieron que me daban un descuento de 20%" />
+            </div>
+            <!-- Campo: Servicio -->
+            <div class="space-y-2">
+              <label for="service"
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Servicio</label>
+              <input type="text" id="service"
+                v-model="complaintObject.service"
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
+                placeholder="Netflix, Amazon, Telcel, LALA, Bimbo etc." />
             </div>
 
             <!-- Campo: Categoría -->
@@ -59,10 +68,7 @@
                 class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">Elegir
                 Nueva imagen</button>
 
-              <button v-if="imageSelected" @click="removeImage"
-              type="button"
-                class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700">Quitar
-                imagen</button>
+
             </div>
             <label v-show="!imageSelected" class="custum-file-upload" for="file">
               <div class="icon">
@@ -81,9 +87,12 @@
               </div>
               <input @change="handleFileInputChange" accept="image/*" ref="imgFileInput" type="file" id="file">
             </label>
-            <img v-if="imageSelected" :src="imageSelected" :key="imageSelected" class="animate-bounce animate-once w-sm"
+            <img v-if="imageSelected" :src="imageSelected" :key="imageSelected" class="rounded-3xl border-2 border-dashed animate-bounce animate-once w-sm border-slate-500"
               alt="Imagen seleccionada">
-
+              <button v-if="imageSelected" @click="removeImage"
+              type="button"
+                class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors cursor-pointer w-sm hover:bg-rose-700">Quitar
+                imagen</button>
             <!-- Recordatorio -->
             <div
               class="p-4 rounded-lg border-l-4 border-blue-500 transition-colors duration-200 bg-blue-50/80 hover:bg-blue-100 hover:border-blue-600">
@@ -208,7 +217,7 @@ const verifyParamIsValid = () => {
   }
 
 }
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { Notyf } from 'notyf';
 import LoaderA from '@/animations/Loaders/LoaderA.vue';
@@ -218,11 +227,28 @@ const complaintObject =  reactive({
   userName: auth.currentUser?.displayName || 'Anonimo',
   title:'',
   category:'',
-  description:'',
-  image:''
+  content:'',
+  image:'',
+  userUid: '',
+  createdAt: {},
+  service: '',
+})
+const complaintObjectMock = reactive({
+  userName: auth.currentUser?.displayName || 'Anonimo',
+  title: 'Producto en mal estado y pésima atención',
+  category: 'Reclamo de producto',
+  description: `Compré un paquete de pan Bimbo hace dos días y estaba completamente mohoso al abrirlo.
+No entiendo cómo una empresa tan grande puede permitir que lleguen productos así al consumidor.
+Intenté comunicarme con atención a clientes y me respondieron tarde y de manera muy genérica,
+sin ofrecer solución alguna. Es increíble que tenga que perder tiempo y dinero por algo que debería
+ser básico: productos frescos y servicio decente. Exijo que revisen este lote y den alguna compensación.`,
+  image: 'https://tu-url-de-imagen-aqui.com/imagen.jpg', // reemplaza esta URL
+  userUid: 'Zp8Qx9Lm4Kj2Rt7Gh3VeY6Fb1Dn5ScLq', // UID aleatorio largo estilo Firebase
+  createdAt: Timestamp.now(),
+  service: 'Bimbo'
 })
 
-function toBase64(file) {
+function toBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file); // convierte automáticamente a Base64 con prefijo data:
@@ -245,7 +271,7 @@ const compressImage = async () => {
   console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
 
   const options = {
-    maxSizeMB: 0.4,
+    maxSizeMB: 0.07,
     maxWidthOrHeight: 1920,
     useWebWorker: true
   };
@@ -273,13 +299,15 @@ const sendComplaint = async () => {
   await compressImage();
   if(!compressedImageBase64.value) return;
   loading.value = true;
+  complaintObject.userUid = auth.currentUser?.uid || '';
+  complaintObject.createdAt = Timestamp.now();
   addDoc(complaintsCollection,complaintObject)
   .then((docRef)=>{
     console.log('Doc was sent successfully')
     console.log('docRef:',docRef);
     notyf.success('Reclamo enviado correctamente')
     complaintObject.category = '';
-    complaintObject.description = '';
+    complaintObject.content = '';
     complaintObject.title = '';
     complaintObject.image = '';
     imageSelected.value = '';
