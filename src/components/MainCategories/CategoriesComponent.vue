@@ -19,6 +19,7 @@
         >
           <ul class="space-y-1">
             <h5 class="font-semibold text-gray-800">Ejemplos para {{ category.name }}</h5>
+            <RouterLink :to="{name: 'all-categories', params: { category: category.name }}" class="px-2 py-1 text-sm text-white bg-rose-600 rounded transition-colors hover:bg-rose-50 hover:text-rose-800 hover:border-rose-800 hover:border hover:cursor-pointer">Ver todos</RouterLink>
             <li
               v-for="example in category.examples"
               :key="example"
