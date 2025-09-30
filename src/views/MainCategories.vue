@@ -72,7 +72,7 @@
         <!--Comments-->
         <article class="overflow-y-scroll h-dvh">
           <div v-if="loading" class="flex flex-col justify-center items-center">
-            <v-icon name="ri-loader-5-fill" class="mx-auto text-cyan-950" animation="spin" scale="7.5" speed="fast"/>
+            <v-icon name="ri-loader-5-fill" class="mx-auto text-rose-600" animation="spin" scale="7.5" speed="fast"/>
             <p class="text-center text-slate-800">Cargando comentarios...</p>
           </div>
           <div v-else>
@@ -86,9 +86,6 @@
     <viewer :images="images">
       <img v-for="src in images" :key="src" :src="src">
     </viewer>
-    <!-- api -->
-    <button type="button" @click="show">Click to show</button>
-
 
           </div>
         </article>
@@ -165,7 +162,7 @@ import 'animate.css';
 import CommentCard from '@/components/CommentCard.vue';
 import CategoriesComponent from '@/components/MainCategories/CategoriesComponent.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import { collection, getDocs, query, where, orderBy, limit, startAfter } from 'firebase/firestore';
+import { collection, getDocs, query, where, orderBy, limit, startAfter, DocumentSnapshot } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { onMounted, ref } from 'vue';
 import type { IComplaint } from '@/Interfaces/IComplaint';
@@ -228,9 +225,10 @@ const categories = [
 const complaints = ref<IComplaint[]>([]);
 const loading = ref(true);
 
-const lastVisibleDoc = ref(null);
+const lastVisibleDoc = ref<DocumentSnapshot | null>(null);
+
 const getComments = () => {
-  const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'), limit(3));
+  const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'), limit(10));
   getDocs(qGetComplaints).then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       console.log(doc.data());

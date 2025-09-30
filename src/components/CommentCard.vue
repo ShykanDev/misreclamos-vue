@@ -33,7 +33,7 @@
 
       <!-- Image -->
       <div v-if="image" class="mb-4">
-        <img @click="show" :src="image" alt="" class="w-full h-auto rounded-lg"/>
+        <img @click="show" :src="image" alt="" class="w-full h-auto rounded-lg cursor-pointer"/>
             </div>
       <!-- Button -->
       <div class="flex justify-between items-center pt-4 border-t border-gray-100">

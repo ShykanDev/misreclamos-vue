@@ -57,7 +57,7 @@
               <label for="comment"
                 class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Descripción</label>
               <textarea id="comment" rows="5"
-                v-model="complaintObject.description"
+                v-model="complaintObject.content"
                 class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
                 placeholder="E.g: Todo comienza cuando la empresa (x) no cumple con sus promesas, debido a que..."></textarea>
             </div>
@@ -215,6 +215,7 @@ const verifyParamIsValid = () => {
     notyf.error('La categoría no es valida')
     router.push({name:'home'})
   }
+  complaintObject.category = param
 
 }
 import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore';
@@ -294,8 +295,24 @@ const compressImage = async () => {
   }
 };
 
-const sendComplaint = async () => {
+const verifyFields = () => {
+  if(!complaintObject.category) {
+    notyf.error('Debe seleccionar una categoría');
+    return false;
+  }
+  if(!complaintObject.title) {
+    notyf.error('Debe ingresar un título');
+    return false;
+  }
+  if(!complaintObject.content) {
+    notyf.error('Debe ingresar una descripción');
+    return false;
+  }
 
+  return true;
+}
+const sendComplaint = async () => {
+if(!verifyFields()) return;
   await compressImage();
   if(!compressedImageBase64.value) return;
   loading.value = true;
@@ -310,10 +327,13 @@ const sendComplaint = async () => {
     complaintObject.content = '';
     complaintObject.title = '';
     complaintObject.image = '';
+    complaintObject.service = '';
+    complaintObject.userName = '';
     imageSelected.value = '';
     imageFileValue.value = null;
     compressedImageBase64.value = '';
     loading.value = false;
+
   })
   .catch((error)=>{
     console.log('Error sending doc:',error)
