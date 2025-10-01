@@ -1,10 +1,12 @@
+import type { Timestamp } from "firebase/firestore";
+
 export interface IComplaint {
-  createdAt: string;
+  createdAt: Timestamp;
   title: string;
   category: string;
   service: string;
   id: string;
-  description: string;
+  content: string;
   image?: string;
   userName: string;
   userUID: string;

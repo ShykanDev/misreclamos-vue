@@ -35,14 +35,14 @@
 
                 <!-- Botón con efecto 3D -->
                 <div class="flex justify-center lg:justify-start">
-                  <a href="#"
+                  <RouterLink to="/register"
                     class="inline-flex justify-center items-center px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-lg transition-all transform hover:from-rose-700 hover:to-red-900 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
                     ¡Registro Gratis!
                     <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
-                  </a>
+                  </RouterLink>
                 </div>
               </div>
 

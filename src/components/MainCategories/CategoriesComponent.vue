@@ -1,39 +1,45 @@
 <template>
-    <div class="">
+    <div class="bgCustom">
       <div class="flex sticky top-5 z-30 rounded-2xl items-left">
-        <h4 class="inline-block px-1 mb-6 text-2xl font-semibold text-rose-800 rounded-2xl backdrop-blur-md bg-white/55">Categorías</h4>
+        <h4 class="inline-block px-1 mb-6 text-2xl font-semibold text-rose-800 bg-white border-b-2 border-rose-500 backdrop-blur-md">Categorías</h4>
       </div>
   <article class="max-w-4xl h-full">
     <ul class="flex overflow-y-scroll flex-col gap-2 items-left">
-      <li
-        v-for="category in fullCategories.sort((a, b) => a.name.localeCompare(b.name))"
+      <RouterLink
+      :to="{name: 'all-categories', params: {category: category.name }}"
+        v-for="category in fullCategories"
         :key="category.name"
-        class="relative p-3 text-2xl bg-white rounded-lg border border-rose-100 transition-colors duration-200 hover:border-rose-300 group"
+        class="relative p-3 text-2xl rounded-lg border border-rose-100 transition-colors duration-200 hover:bg-white group hover:border-rose-300 hover:cursor-pointer"
+        :class="{'bg-rose-700 text-white hover:bg-rose-800 hover:text-rose-800 ': category.name == route.params.category, 'bg-white/80 text-rose-700 hover:bg-rose-800 hover:text-rose-800 hover:border-rose-800': category.name != route.params.category }"
       >
-      <span class="flex gap-2 items-center">
-        <v-icon :name="category.icon" class="text-rose-700" scale="1.5" />
-        {{ category.name }}
+        <!--Chip de categorías-->
+        <span v-show="category.name != route.params.category" class="inline-block absolute -top-2 left-2 px-2 py-1 text-xs font-semibold text-rose-600 bg-white rounded-full border-t-2 opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 border-t-rose-100">
+         Haga click para ver las quejas
+        </span>
+      <span class="flex gap-2 items-center transition-all duration-200">
+        <v-icon :name="category.icon" class="group-hover:scale-110" scale="1.5" />
+        <span class="transition-all duration-200 group-hover:translate-x-10">{{ category.name }}</span>
       </span>
         <div
           class="absolute top-0 right-0 invisible z-20 p-2 w-56 text-2xl bg-white rounded-lg border border-rose-200 shadow-md opacity-0 transition-opacity duration-200 group-hover:visible group-hover:opacity-100"
         >
           <ul class="space-y-1">
-            <h5 class="font-semibold text-gray-800">Ejemplos para {{ category.name }}</h5>
-            <RouterLink :to="{name: 'all-categories', params: { category: category.name }}" class="px-2 py-1 text-sm text-white bg-rose-600 rounded transition-colors hover:bg-rose-50 hover:text-rose-800 hover:border-rose-800 hover:border hover:cursor-pointer">Ver todos</RouterLink>
+            <h5 class="font-semibold text-rose-800">Ejemplos para {{ category.name }}</h5>
+            <RouterLink :to="{name: 'all-categories', params: {category: category.name }}" class="px-2 py-1 text-sm text-white bg-rose-600 rounded transition-colors hover:bg-white hover:text-rose-800 hover:border-rose-800 hover:border hover:cursor-pointer">Ver todos</RouterLink>
             <li
               v-for="example in category.examples"
               :key="example"
-              class="px-2 py-1 text-sm text-rose-800 rounded transition-colors hover:bg-rose-50 hover:cursor-pointer"
+              class="px-2 py-1 text-sm text-rose-800 rounded transition-colors hover:bg-white hover:cursor-pointer"
             >
               {{ example }}
             </li>
             <button class="flex items-center px-2 py-1 text-sm text-white bg-rose-800 rounded-3xl transition-colors hover:bg-rose-700 hover:cursor-pointer">
               <v-icon name="md-add-round" scale="1" />
-              <RouterLink :to="`/create-comment/${category.name}`">Nuevo reclamo para {{ category.name }}</RouterLink>
+              <RouterLink :to="{name:'create-comment', params: {category: category.name }}">Nuevo reclamo para {{ category.name }}</RouterLink>
             </button>
           </ul>
         </div>
-      </li>
+      </RouterLink>
     </ul>
   </article>
 </div>
@@ -41,6 +47,9 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+const route  = useRoute();
 const fullCategoriesOriginal = [
   { name: "Abarrotes y Bebidas", icon: '', examples: ["La Europea", "Super Salados", "Bodega Aurrerá Express", "Tiendas 3B"] },
   { name: "Vinos o Vinaterías", icon: '', examples: ["La Vinoteca", "Vinos Sin-Fronteras", "Bodegas de Santo Tomás", "Casa Madero"] },
@@ -142,8 +151,14 @@ const fullCategories = [
   { name: "Otro", icon: "", examples: ["Hospital Veterinario UNAM", "Mascotitas", "Petco", "Veterinaria San Francisco"] }
 ];
 
+onMounted(() => {
+  console.log(route.params.category)
+})
 </script>
 
 <style scoped>
-
+.bgCustom {
+  background-color: #f4f9fe;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%233e5675' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+}
 </style>

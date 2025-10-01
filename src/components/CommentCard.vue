@@ -5,7 +5,7 @@
   <div class="flex justify-between items-center mb-3">
     <div class="flex gap-1 items-center">
       <v-icon name="hi-calendar" class="text-gray-400" scale="0.9" />
-      <time :datetime="date" class="text-xs font-medium text-gray-400">
+      <time :datetime="date.toDate().toISOString()" class="text-xs font-medium text-gray-400">
         {{ convertDate(date) }}
       </time>
     </div>
@@ -33,15 +33,15 @@
     </div>
     <div class="flex gap-1 items-center">
       <v-icon name="hi-document-text" class="text-gray-800" scale="0.9" />
-      <h2 class="text-lg font-bold text-gray-800">{{ title }}</h2>
+      <h2 class="text-lg font-bold text-rose-600">{{ title }}</h2>
     </div>
   </div>
 
   <!-- Category -->
   <div class="mb-3">
     <div class="inline-flex gap-1 items-center">
-      <v-icon name="hi-tag" class="text-blue-600" scale="0.9" />
-      <span class="inline-block px-2 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded">
+      <v-icon name="hi-tag" class="text-rose-600" scale="0.9" />
+      <span class="inline-block px-2 py-1 text-xs font-medium text-rose-600 bg-rose-50 rounded">Categoría:
         {{ category }}
       </span>
     </div>
@@ -135,5 +135,5 @@ const show = () => {
      images: images.value
     })
   }
-const iniciales = props.userName.slice(0, 2);
+const iniciales = props.userName.slice(0, 1);
 </script>

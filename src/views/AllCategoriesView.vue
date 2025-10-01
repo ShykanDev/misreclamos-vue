@@ -6,10 +6,14 @@
           <CategoriesComponent />
         </div>
 
-        <div class="overflow-y-scroll col-span-2 h-dvh">
-          <h2 class="">Comentarios para {{ category }}</h2>
+        <div class="overflow-y-scroll relative col-span-2 h-dvh">
+          <h2 class="sticky top-0 left-0 z-10 px-2 py-1 text-rose-800 bg-white">{{ (category === 'default' ? 'Comentarios Generales' : 'Comentarios de la categoría: ' + category) }}</h2>
+          <div v-if="loading" class="flex flex-col justify-center items-center">
+            <v-icon name="ri-loader-5-fill" class="mx-auto text-rose-600" animation="spin" scale="7.5" speed="fast"/>
+            <p class="text-center text-slate-800">Cargando comentarios...</p>
+          </div>
           <div v-if="complaints.length > 0">
-            <CommentCard v-for="complaint in complaints" :key="complaint.image" :category="complaint.category" :content="complaint.description" :createdAt="complaint.createdAt" :id="complaint.id" :image="complaint.image" :title="complaint.title" :user="complaint.userName" :userUID="complaint.userUID" :date="complaint.createdAt" />
+            <CommentCard v-for="complaint in complaints" :key="complaint.createdAt" :category="complaint.category" :content="complaint.content" :createdAt="complaint.createdAt" :id="complaint.id" :image="complaint.image" :title="complaint.title" :user="complaint.userName" :userUID="complaint.userUID" :service="complaint.service" :date="complaint.createdAt" :userName="complaint.userName" />
           </div>
           <p v-else>No hay comentarios para esta categoría</p>
         </div>
@@ -29,24 +33,37 @@ import CommentCard from '@/components/CommentCard.vue';
 const route  = useRoute();
 
 const complaints = ref<IComplaint[]>([])
+const loading = ref(false)
 
 const db = getFirestore();
 const complaintsCollection = collection(db, 'complaints')
-const category = route.params.category || 'default';
+const category = computed(() => route.params.category || 'default')
 const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'))
-const qGetComplaintsCategory = query(complaintsCollection, orderBy('createdAt', 'desc'), where('category', '==', category))
+let qGetComplaintsCategory = query(complaintsCollection, orderBy('createdAt', 'desc'), where('category', '==', category.value))
 
 const getComplaints = () => {
-  const dynamicVal = category === 'default' ? qGetComplaints : qGetComplaintsCategory
+  complaints.value = [];
+  const dynamicVal = category.value === 'default' ? qGetComplaints : qGetComplaintsCategory
+  loading.value = true
   getDocs(dynamicVal).then((querySnapshot) => {
      querySnapshot.docs.forEach((doc) => {
       complaints.value.push(doc.data() as IComplaint)
     })
+    loading.value = false
+  }).catch((error) => {
+    console.error('Error al obtener los comentarios:', error)
+    loading.value = false
+  }).finally(() => {
+    loading.value = false
   })
 }
 
-watch(() => route.params.category, (oldVal, NewVal) => {
-  console.log(oldVal, NewVal);
+watch(() => route.params.category, () => {
+  if(category.value === 'default') {
+    qGetComplaintsCategory = query(complaintsCollection, orderBy('createdAt', 'desc'))
+  } else {
+    qGetComplaintsCategory = query(complaintsCollection, orderBy('createdAt', 'desc'), where('category', '==', category.value))
+  }
   complaints.value = [];
   getComplaints();
 })
