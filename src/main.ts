@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
-
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -195,9 +195,12 @@ addIcons(FaFlag, RiZhihuFill,
   HiCalendar, HiUser, HiOfficeBuilding, HiDocumentText, HiTag, HiEye
 );
 
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
+
 app.use(VueViewer)
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 app.component("v-icon", OhVueIcon);
 app.mount('#app')

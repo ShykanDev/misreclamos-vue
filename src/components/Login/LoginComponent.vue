@@ -113,9 +113,14 @@
       <!-- Botón de reenviar correo (opcional) -->
     </div>
   </div>
+
+  <article class="flex flex-col justify-center items-center w-full">
+    <p class="text-sm text-center text-gray-500">¿Olvidó su contraseña?</p>
+    <button @click="toggleResetPassword" class="px-4 py-2 mx-auto mt-2 font-bold text-pink-700 rounded-xl border-2 border-dashed transition-all cursor-pointer w-sm hover:from-pink-600 hover:to-red-600 focus:ring-4 focus:ring-pink-300">{{ (showResetPassword) ? 'Cancelar' : 'Restablecer Contraseña' }}</button>
+  </article>
   <!--Reset Password
   -->
-  <section class="flex flex-col justify-center items-center p-4 bg-amber-50 rounded-xl">
+  <section v-if="showResetPassword" class="flex flex-col justify-center items-center p-4 bg-red-50 rounded-xl">
     <h4>Restablecer Contraseña</h4>
     <p>Por favor, ingrese su correo electrónico y le enviaremos un enlace para restablecer su contraseña.</p>
     <form @submit.prevent="handleResetPassword">
@@ -137,6 +142,14 @@ import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail   } from 'f
 import 'notyf/notyf.min.css';
 import { Notyf } from 'notyf';
 import { useLogginStore } from '@/stores/loggin';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const showResetPassword = ref(false);
+
+const toggleResetPassword = () => {
+  showResetPassword.value = !showResetPassword.value;
+}
+
 
 const notyf = new Notyf ({
   position: {
@@ -192,6 +205,7 @@ const notyf = new Notyf ({
             useLogginStore().setUserLoggedIn(true);
             notyf.success(`Le damos la bienvenida ${user.displayName}`);
             console.log(user)
+            router.push('/');
           })
 
           .catch((error) => {

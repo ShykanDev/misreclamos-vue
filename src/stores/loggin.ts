@@ -18,4 +18,5 @@ export const useLogginStore = defineStore('loggin', {
         getIsUserEmailVerified: (state) => state.isUserEmailVerified,
         getIsUserLoggedIn: (state) => state.isUserLoggedIn,
     },
+    persist:true
 });

@@ -68,7 +68,7 @@
                       placeholder="••••••••" required />
                   </div>
 
-                  <button type="submit" @click="resetPassword"
+                  <button type="submit" @click.prevent="resetPassword"
                     class="py-2.5 w-full font-semibold text-white bg-rose-500 rounded-xl shadow-md transition transform hover:bg-rose-600 hover:-translate-y-0.5">
                     Guardar nueva contraseña
                   </button>
@@ -166,6 +166,10 @@ const resetPassword = async () => {
     notyf.error('Por favor ingrese su nueva contraseña');
     return;
   }
+  if (newPassword.value !== confirmNewPassword.value) {
+    notyf.error('Las contraseñas no coinciden');
+    return;
+  }
   try {
     isLoading.value = true;
     await confirmPasswordReset(auth, oobCode as string, newPassword.value)
@@ -173,7 +177,7 @@ const resetPassword = async () => {
     isPasswordVerified.value = true;
     newPassword.value = '';
     confirmNewPassword.value = '';
-    notyf.success('Contraseña actualizada correctamente');
+    notyf.success('Contraseña actualizada correctamente, redirigiendo a iniciar sesión...');
     router.push('/login');
     isLoading.value = false;
   } catch (error) {

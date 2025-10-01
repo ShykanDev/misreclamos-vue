@@ -26,11 +26,11 @@
 
                 <!-- Categorías con animación -->
                 <div class="flex flex-wrap gap-2 justify-center mb-10 lg:justify-start">
-                  <button v-for="(service, index) in categories" :key="index"
+                  <RouterLink :to="{name: 'all-categories', params: {category: service.name}}" v-for="(service, index) in categories" :key="index"
                     class="inline-flex items-center px-4 py-2 text-lg font-medium text-white bg-rose-600 rounded-lg transition-all hover:bg-rose-700 hover:shadow-lg hover:transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
                     <v-icon :name="service.icon" class="mr-2" />
                     {{ service.name }}
-                  </button>
+                  </RouterLink>
                 </div>
 
                 <!-- Botón con efecto 3D -->
@@ -76,7 +76,7 @@
             <p class="text-center text-slate-800">Cargando comentarios...</p>
           </div>
           <div v-else>
-            <CommentCard  v-for="complaint in complaints" :key="complaint.id" :category="complaint.category" :content="complaint.description" :image="complaint.image" :title="complaint.title" :userName="complaint.userName" :date="complaint.createdAt" :service="complaint.service" />
+            <CommentCard  v-for="complaint in complaints" :key="complaint.id" :category="complaint.category" :content="complaint.content" :image="complaint.image" :title="complaint.title" :userName="complaint.userName" :date="complaint.createdAt" :service="complaint.service" />
 
 <!-- directive -->
 <div class="images" v-viewer>

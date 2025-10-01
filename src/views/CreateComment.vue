@@ -333,7 +333,6 @@ if(!verifyFields()) return;
     imageFileValue.value = null;
     compressedImageBase64.value = '';
     loading.value = false;
-
   })
   .catch((error)=>{
     console.log('Error sending doc:',error)
@@ -343,8 +342,6 @@ if(!verifyFields()) return;
     loading.value = false;
   })
 }
-
-
 
 onMounted(() => {
   verifyParamIsValid();

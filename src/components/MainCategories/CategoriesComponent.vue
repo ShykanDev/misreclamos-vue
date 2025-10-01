@@ -18,7 +18,7 @@
         </span>
       <span class="flex gap-2 items-center transition-all duration-200">
         <v-icon :name="category.icon" class="group-hover:scale-110" scale="1.5" />
-        <span class="transition-all duration-200 group-hover:translate-x-10">{{ category.name }}</span>
+        <span class="transition-all duration-100 group-hover:translate-x-10">{{ category.name }}</span>
       </span>
         <div
           class="absolute top-0 right-0 invisible z-20 p-2 w-56 text-2xl bg-white rounded-lg border border-rose-200 shadow-md opacity-0 transition-opacity duration-200 group-hover:visible group-hover:opacity-100"
