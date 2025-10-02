@@ -76,7 +76,7 @@
           <div class="mt-6 text-center">
             <p class="mb-1.5" @click="openModal">¿Olvidó su contraseña?</p>
             <p class="text-gray-500 text-md">
-              ¿Ya tienes cuenta?
+              ¿Ya tiene cuenta?
 
               <router-link to="/login"
                 class="font-medium text-rose-600 transition-colors duration-200 hover:text-rose-700">

@@ -65,11 +65,11 @@
   <!-- Action Button -->
   <div class="pt-4 border-t border-gray-100">
     <button
-      @click="$emit('ver-comentario')"
+      @click="answerComment"
       class="flex gap-2 justify-center items-center px-4 py-2.5 w-full text-sm font-medium text-white bg-gradient-to-r from-rose-600 to-rose-700 rounded-lg shadow-sm transition-colors hover:from-rose-700 hover:to-rose-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
     >
-      <v-icon name="hi-eye" class="text-white" scale="0.9" />
-      Visualizar Comentario
+
+      Responder Comentario
     </button>
   </div>
 </div>
@@ -136,4 +136,9 @@ const show = () => {
     })
   }
 const iniciales = props.userName.slice(0, 1);
+
+
+const answerComment = () => {
+  alert('Function still under development, not available yet');
+}
 </script>
