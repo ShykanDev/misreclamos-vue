@@ -76,7 +76,7 @@
             <p class="text-center text-slate-800">Cargando comentarios...</p>
           </div>
           <div v-else>
-            <CommentCard  v-for="complaint in complaints" :key="complaint.id" :category="complaint.category" :content="complaint.content" :image="complaint.image" :title="complaint.title" :userName="complaint.userName" :date="complaint.createdAt" :service="complaint.service" />
+            <CommentCard  v-for="complaint in complaints" :key="complaint.id" @callReload="answerSent" :category="complaint.category" :content="complaint.content" :image="complaint.image" :title="complaint.title" :userName="complaint.userName" :date="complaint.createdAt" :service="complaint.service" :answers="complaint.answers" :docId="complaint.id"/>
 
 <!-- directive -->
 <div class="images" v-viewer>
@@ -230,10 +230,12 @@ const lastVisibleDoc = ref<DocumentSnapshot | null>(null);
 const getComments = () => {
   const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'), limit(10));
   getDocs(qGetComplaints).then((querySnapshot) => {
+    loading.value = true;
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
+      const complaint = doc.data() as IComplaint;
       complaints.value.push({
-        ...doc.data() as IComplaint
+        ...complaint,
+        id: doc.id
       });
     });
     lastVisibleDoc.value = querySnapshot.docs[querySnapshot.docs.length - 1];
@@ -243,6 +245,11 @@ const getComments = () => {
     notyf.error('Error al cargar los comentarios');
     loading.value = false;
   })
+}
+
+const answerSent =() =>{
+  complaints.value = [];
+  getComments();
 }
 onMounted(() => {
   getComments();

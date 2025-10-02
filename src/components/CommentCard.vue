@@ -62,8 +62,26 @@
     />
   </div>
 
+<!-- Answers -->
+<div v-if="answers.length > 0" class="overflow-y-scroll p-1 mt-6 h-96 rounded-2xl bg-rose-50/50">
+  <h3 class="mb-4 text-xl font-bold text-rose-700">{{ answers.length }} respuestas</h3>
+  <div
+    v-for="answer in answers as IAnswer[]"
+    :key="answer.userNameTo"
+    class="p-4 mb-5 bg-rose-50 rounded-xl border-l-4 border-rose-400 shadow-sm transition-shadow duration-200 hover:shadow-md"
+  >
+    <div class="flex gap-2 items-center mb-2">
+      <v-icon name="hi-user" class="text-rose-600" scale="1" />
+      <span class="text-sm font-medium text-rose-800">{{ answer.userNameTo }}</span>
+      <span class="text-sm font-base text-slate-600">{{answer.date.toDate().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }) }}</span>
+    </div>
+    <p class="leading-relaxed text-gray-800">{{ answer.answer }}</p>
+  </div>
+</div>
+
+
   <!-- Action Button -->
-  <div class="pt-4 border-t border-gray-100">
+  <div class="hidden pt-4 border-t border-gray-100">
     <button
       @click="answerComment"
       class="flex gap-2 justify-center items-center px-4 py-2.5 w-full text-sm font-medium text-white bg-gradient-to-r from-rose-600 to-rose-700 rounded-lg shadow-sm transition-colors hover:from-rose-700 hover:to-rose-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
@@ -73,14 +91,16 @@
     </button>
   </div>
 </div>
-
+  <AnswerComment @callReload="callParentReload" :from-name="userName" :doc-id="docId"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Timestamp } from 'firebase/firestore';
 import { api as viewerApi } from 'v-viewer'
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import AnswerComment from './AllCategories/AnswerComment.vue';
+import type { IAnswer } from '@/Interfaces/IComplaint';
 
 
 const convertDate = (dateParam:Timestamp) => {
@@ -123,6 +143,14 @@ userName: {
   image:{
     type: String,
     default: "https://images.pexels.com/photos/33984908/pexels-photo-33984908.jpeg"
+  },
+  docId:{
+    type: String,
+    default: ""
+  },
+  answers:{
+    type: Array,
+    default: () => []
   }
 });
 
@@ -141,4 +169,12 @@ const iniciales = props.userName.slice(0, 1);
 const answerComment = () => {
   alert('Function still under development, not available yet');
 }
+
+
+const emmits = defineEmits(['reload', 'callReload']);
+const callParentReload = () => {
+  emmits('callReload');
+  emmits('callReload');
+}
+
 </script>

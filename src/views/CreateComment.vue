@@ -313,8 +313,11 @@ const verifyFields = () => {
 }
 const sendComplaint = async () => {
 if(!verifyFields()) return;
-  await compressImage();
-  if(!compressedImageBase64.value) return;
+
+  if(imageSelected.value) {
+    await compressImage();
+    if(!compressedImageBase64.value) return;
+  }
   loading.value = true;
   complaintObject.userUid = auth.currentUser?.uid || '';
   complaintObject.createdAt = Timestamp.now();
