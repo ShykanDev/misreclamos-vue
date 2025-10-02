@@ -15,7 +15,7 @@
           <div v-if="complaints.length > 0">
             <CommentCard v-for="complaint in complaints" :key="complaint.createdAt" :category="complaint.category" :content="complaint.content" :createdAt="complaint.createdAt" :id="complaint.id" :image="complaint.image" :title="complaint.title" :user="complaint.userName" :userUID="complaint.userUID" :service="complaint.service" :date="complaint.createdAt" :userName="complaint.userName" />
           </div>
-          <p v-else>No hay comentarios para esta categoría</p>
+          <EmptyAnimation class="flex justify-center items-center min-h-dvh" v-else/>
         </div>
       </section>
     </template>
@@ -30,6 +30,7 @@ import { collection, getDoc, getDocs, getFirestore, orderBy, query, where } from
 import type { IComplaint } from '@/Interfaces/IComplaint';
 import { computed, onMounted, ref, watch } from 'vue';
 import CommentCard from '@/components/CommentCard.vue';
+import EmptyAnimation from '@/animations/Loaders/EmptyAnimation.vue';
 const route  = useRoute();
 
 const complaints = ref<IComplaint[]>([])

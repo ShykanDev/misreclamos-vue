@@ -28,7 +28,7 @@
           </div>
 
           <!-- Mensaje de error (con animación) -->
-          <div v-if="isError" class="p-4 text-center text-red-700 bg-red-50 rounded-xl animate-fade-up">
+          <div v-if="isError || !isValidCode" class="p-4 text-center text-red-700 bg-red-50 rounded-xl animate-fade-up">
             <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-2 w-8 h-8 text-red-500" fill="none"
               viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -85,7 +85,7 @@
 
 <script lang="ts" setup>
 import MainLayout from '@/layouts/MainLayout.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { applyActionCode, confirmPasswordReset, getAuth, updatePassword, validatePassword, verifyPasswordResetCode } from 'firebase/auth';
 import AnimationLoader from '@/animations/Loaders/LoaderA.vue';
@@ -143,21 +143,26 @@ const validateEmail = async () => {
 }
 
 
-
+const passswordRequirements = reactive({
+  length: false,
+  uppercase: false,
+})
 const newPassword = ref();
 const confirmNewPassword = ref();
-
+const isValidCode = ref(false);
 const confirmPassword = async() => {
   try {
     const email = await verifyPasswordResetCode(auth, oobCode as string);
+    isValidCode.value = true;
     return true;
   } catch (error) {
     const e = error as Error;
-    notyf.error(e.message);
+    notyf.error(`El código de verificación no es válido: ${e.message}`);
     console.log(e);
     isError.value = true;
     isLoading.value = false;
     errorMessage.value = e.message;
+    isValidCode.value = false;
     return false;
   }
 }
@@ -166,8 +171,20 @@ const resetPassword = async () => {
     notyf.error('Por favor ingrese su nueva contraseña');
     return;
   }
+  if (newPassword.value.length < 6) {
+    notyf.error('La contraseña debe tener al menos 6 caracteres');
+    return;
+  }
+  if (!/[A-Z]/.test(newPassword.value)) {
+    notyf.error('La contraseña debe tener al menos una letra mayúscula');
+    return;
+  }
   if (newPassword.value !== confirmNewPassword.value) {
     notyf.error('Las contraseñas no coinciden');
+    return;
+  }
+  if (!isValidCode.value) {
+    notyf.error('El código de verificación no es válido');
     return;
   }
   try {
@@ -182,10 +199,11 @@ const resetPassword = async () => {
     isLoading.value = false;
   } catch (error) {
     const e = error as Error;
-    notyf.error(e.message);
+    notyf.error(`Error al actualizar la contraseña: ${e.message}`);
     console.log(e);
     isError.value = true;
     isLoading.value = false;
+    isValidCode.value = false;
     isPasswordVerified.value = false;
     errorMessage.value = e.message;
   }

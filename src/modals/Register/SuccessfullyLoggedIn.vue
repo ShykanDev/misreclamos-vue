@@ -7,48 +7,51 @@
   >
     <!-- Contenedor de la tarjeta -->
     <div
-      class="w-full max-w-md mx-4 bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:scale-[1.01] p-8 text-center animate__animated animate__flipInX"
+  class="w-full max-w-md mx-4 bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:scale-[1.01] p-8 text-center animate__animated animate__flipInX"
+>
+  <!-- Icono de éxito (opcional) -->
+  <div class="flex justify-center mb-6">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-16 h-16 text-green-500"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
     >
-      <!-- Icono de éxito (opcional) -->
-      <div class="flex justify-center mb-6">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-16 h-16 text-green-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-      </div>
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        d="M5 13l4 4L19 7"
+      />
+    </svg>
+  </div>
+  <!-- Título -->
+  <h2
+    id="modal-title"
+    class="mb-3 text-2xl font-bold text-gray-800"
+  >
+    ¡Cuenta creada con éxito, {{ userName || 'user' }}!
+  </h2>
+  <!-- Mensaje principal -->
+  <p class="mb-6 leading-relaxed text-gray-600">
+    Ahora puede comentar y compartir sus denuncias o reclamos sobre empresas injustas.
+    <span class="font-semibold text-gray-800">Su voz puede hacer la diferencia.</span>
+  </p>
+  <!-- Mensaje de verificación -->
+  <p class="p-2 mb-6 leading-relaxed text-gray-600 bg-green-100 rounded-2xl">
+    Como siguiente paso, <strong class="font-semibold text-green-600">verifique su correo</strong> haciendo clic en el enlace que le hemos enviado.
+    Si no lo encuentra, revise su <strong class="font-semibold text-green-600">carpeta de spam</strong>.
+  </p>
+  <!-- Botón de acción -->
+  <router-link
+    to="/"
+    class="inline-block px-6 py-3 w-full font-medium text-white bg-gradient-to-r from-green-600 to-green-600 rounded-xl shadow-lg transition-all duration-200 transform hover:from-green-700 hover:to-green-700 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+  >
+    Ir a Iniciar Sesión
+  </router-link>
+</div>
 
-      <!-- Título -->
-      <h2
-        id="modal-title"
-        class="mb-3 text-2xl font-bold text-gray-800"
-      >
-        ¡Cuenta creada con éxito, {{ userName || 'user' }}!
-      </h2>
-
-      <!-- Mensaje principal -->
-      <p class="mb-6 leading-relaxed text-gray-600">
-        Ahora puede comentar y compartir sus denuncias o reclamos sobre empresas injustas.
-        <span class="font-semibold text-gray-800">Su voz puede hacer la diferencia.</span>
-      </p>
-
-      <!-- Botón de acción -->
-      <router-link
-        to="/"
-        class="inline-block px-6 py-3 w-full font-medium text-white bg-gradient-to-r from-green-600 to-green-600 rounded-xl shadow-lg transition-all duration-200 transform hover:from-green-700 hover:to-green-700 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-      >
-        Ir a Iniciar Sesión
-      </router-link>
-    </div>
   </section>
 </template>
 

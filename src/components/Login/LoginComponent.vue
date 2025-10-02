@@ -56,11 +56,11 @@
         </div>
       </form>
       <div v-if="showVerifyEmail"
-    class="flex fixed inset-0 z-40 flex-col justify-center items-center p-4 bg-black/50"
+    class="flex fixed inset-0 z-40 flex-col justify-center items-center p-4 min-h-dvh bg-black/50"
   >
     <!-- Card principal -->
     <div
-      class="relative p-8 mt-16 space-y-6 w-full max-w-4xl bg-white rounded-2xl border-2 border-yellow-300 shadow-lg transition-all duration-300 hover:shadow-xl"
+      class="relative p-8 mt-16 space-y-6 w-full max-w-4xl bg-white rounded-2xl border-2 border-yellow-300 shadow-lg transition-all duration-300 animate__animated animate__zoomInUp hover:shadow-xl"
     >
     <button @click="showVerifyEmail = false" class="absolute top-4 right-4 px-2 py-1 font-bold text-pink-600 rounded-full border border-pink-600 border-dashed cursor-pointer hover:bg-pink-600 hover:text-white">Cerrar</button>
       <!-- Icono de advertencia -->
@@ -196,11 +196,14 @@ const notyf = new Notyf ({
       if (validateForm()) {
           signInWithEmailAndPassword(auth, email.value, password.value)
           .then((userCredential) => {
+            console.log('userCredential.user.emailVerified =>', userCredential.user.emailVerified)
+            if(!userCredential.user.emailVerified){
+                showVerifyEmail.value = true;
+                console.log('Email no verificado');
+                return;
+            }
             const user = userCredential.user;
             isUserEmailVerified.value = user.emailVerified;
-            if (!isUserEmailVerified.value) {
-              showVerifyEmail.value = true;
-            }
             useLogginStore().setUserEmailVerified(user.emailVerified);
             useLogginStore().setUserLoggedIn(true);
             notyf.success(`Le damos la bienvenida ${user.displayName}`);

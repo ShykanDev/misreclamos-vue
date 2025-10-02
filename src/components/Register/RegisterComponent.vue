@@ -49,7 +49,7 @@
               <label for="password" class="block font-medium text-pink-600 text-md">
                 Contraseña
               </label>
-              <input v-model="form.password" type="password" id="password"
+              <input @input="validatePasswordQuality" v-model="form.password" type="password" id="password"
                 class="px-5 py-3 w-full placeholder-gray-400 rounded-xl border border-gray-200 transition-all duration-300 outline-none focus:border-rose-300 focus:ring-2 focus:ring-rose-200"
                 placeholder="••••••••" required />
             </div>
@@ -62,6 +62,13 @@
               <input v-model="form.confirmPassword" type="password" id="confirmPassword"
                 class="px-5 py-3 w-full placeholder-gray-400 rounded-xl border border-gray-200 transition-all duration-300 outline-none focus:border-rose-300 focus:ring-2 focus:ring-rose-200"
                 placeholder="••••••••" required />
+            </div>
+
+            <div>
+              <p class="text-gray-500 text-md" :class="{ 'text-red-500': passswordRequirements.length, 'text-green-500': !passswordRequirements.length && form.password.length >= 9 }">*Su contraseña debe tener minimo 9 caracteres</p>
+              <p class="text-gray-500 text-md" :class="{ 'text-red-500': passswordRequirements.uppercase, 'text-green-500': !passswordRequirements.uppercase && form.password.match(/[A-Z]/) }">*Su contraseña debe tener al menos una mayuscula</p>
+              <p class="text-gray-500 text-md" :class="{ 'text-red-500': form.password !== form.confirmPassword, 'text-green-500': form.password === form.confirmPassword && form.password.length >= 9 }">*Su contraseña debe coincidir</p>
+              <p class="text-gray-500 text-md">Al registrarse, acepta nuestros <a href="#" class="text-rose-600">Términos y Condiciones</a></p>
             </div>
 
             <!-- Botón de enviar con efecto hover y gradiente -->
@@ -93,12 +100,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateCurrentUser, updateProfile } from 'firebase/auth';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
 import LoaderA from '@/animations/Loaders/LoaderA.vue';
 import ResetPassword from '@/modals/Register/ResetPassword.vue';
+import { BiBook } from 'oh-vue-icons/icons';
 
 // Create an instance of Notyf
 const notyf = new Notyf({
@@ -120,6 +128,11 @@ const form = ref<FormData>({
   confirmPassword: '',
 });
 
+const passswordRequirements = reactive({
+  length: false,
+  uppercase: false,
+})
+
 const isLoading = ref(false);
 
 const auth = getAuth();
@@ -129,6 +142,21 @@ const success = ref(false);
 
 const emmits = defineEmits(['callToggle']);
 
+const validatePasswordQuality = () => {
+  if (form.value.password.length < 9) {
+    passswordRequirements.length = true;
+    return false
+  } else {
+    passswordRequirements.length = false;
+  }
+  if (!form.value.password.match(/[A-Z]/)) {
+    passswordRequirements.uppercase = true;
+    return false
+  } else {
+    passswordRequirements.uppercase = false;
+  }
+  return true
+}
 
 const handleSubmit = async () => {
   if (!form.value.name || !form.value.email || !form.value.password || !form.value.confirmPassword) {
@@ -137,6 +165,10 @@ const handleSubmit = async () => {
   }
   if (form.value.password !== form.value.confirmPassword) {
     notyf.error('Las contraseñas no coinciden');
+    return;
+  }
+  if (!validatePasswordQuality()) {
+    notyf.error('La contraseña no cumple con los requisitos');
     return;
   }
   else {

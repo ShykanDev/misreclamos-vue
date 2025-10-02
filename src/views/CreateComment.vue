@@ -1,16 +1,16 @@
 <template>
   <MainLayout>
     <template #main>
-      <LoaderA v-show="loading" class="flex fixed inset-0 z-40 justify-center items-center bg-blue-950/50" />
+      <LoaderA v-show="loading" class="flex fixed inset-0 z-40 justify-center items-center bg-rose-950/50" />
       <section class="flex justify-center items-center p-6 min-h-screen transition-all duration-300 bgStyle"
         :class="{ 'bg-black/25': isDark, 'bg-white/95': !isDark }">
         <div @mouseenter="isDark = true"
-          class="p-8 mx-auto rounded-2xl border-2 border-blue-400 shadow-xl backdrop-blur-sm transition-all duration-300 w-2xl md:p-12"
-          :class="{ ' w-[70%] bg-blue-50/90 backdrop-blur-none': isDark }">
+          class="p-8 mx-auto rounded-2xl border-2 border-rose-400 shadow-xl backdrop-blur-sm transition-all duration-300 w-2xl md:p-12"
+          :class="{ ' w-[70%] bg-rose-50/90 backdrop-blur-none': isDark }">
           <!-- Título -->
           <h2
-            class="mb-2 text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600 md:text-4xl">
-            Añadir un nuevo reclamo para la categoría <span class="italic font-bold text-blue-700">{{ category }}</span>
+            class="mb-2 text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-rose-600 md:text-4xl">
+            Añadir un nuevo reclamo para la categoría <span class="italic font-bold text-rose-700">{{ category }}</span>
           </h2>
           <!-- Subtítulo -->
           <p class="mb-8 font-medium text-center text-gray-600">
@@ -22,30 +22,30 @@
             <!-- Campo: Nombre -->
             <div class="space-y-2">
               <label for="title"
-                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Título</label>
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-rose-600">Título</label>
               <input type="text" id="title"
                 v-model="complaintObject.title"
-                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent hover:border-rose-200 hover:shadow-sm"
                 placeholder="Me prometieron que me daban un descuento de 20%" />
             </div>
             <!-- Campo: Servicio -->
             <div class="space-y-2">
               <label for="service"
-                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Servicio</label>
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-rose-600">Servicio</label>
               <input type="text" id="service"
                 v-model="complaintObject.service"
-                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent hover:border-rose-200 hover:shadow-sm"
                 placeholder="Netflix, Amazon, Telcel, LALA, Bimbo etc." />
             </div>
 
             <!-- Campo: Categoría -->
             <div class="space-y-2">
               <label for="category"
-                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Categoría</label>
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-rose-600">Categoría</label>
               <select v-model="complaintObject.category" id="category"
-                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 group focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm">
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 group focus:ring-rose-500 focus:border-transparent hover:border-rose-200 hover:shadow-sm">
                 <option value="" disabled selected>Seleccione una categoría</option>
-                <option  class="text-gray-200 group-hover:text-blue-600" v-for="category in fullCategories"
+                <option  class="text-gray-200 group-hover:text-rose-600" v-for="category in fullCategories"
                   :key="category.name" :value="category.name">
                   {{ category.name }}
                 </option>
@@ -55,17 +55,17 @@
             <!-- Campo: Descripción -->
             <div class="space-y-2">
               <label for="comment"
-                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600">Descripción</label>
+                class="block text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-rose-600">Descripción</label>
               <textarea id="comment" rows="5"
                 v-model="complaintObject.content"
-                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-200 hover:shadow-sm"
+                class="px-4 py-3 w-full bg-white rounded-lg border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent hover:border-rose-200 hover:shadow-sm"
                 placeholder="E.g: Todo comienza cuando la empresa (x) no cumple con sus promesas, debido a que..."></textarea>
             </div>
 
             <div class="flex justify-between items-center w-full">
               <button v-if="imageSelected" @click="renewImage"
               type="button"
-                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">Elegir
+                class="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg transition-colors hover:bg-rose-700">Elegir
                 Nueva imagen</button>
 
 
@@ -95,8 +95,8 @@
                 imagen</button>
             <!-- Recordatorio -->
             <div
-              class="p-4 rounded-lg border-l-4 border-blue-500 transition-colors duration-200 bg-blue-50/80 hover:bg-blue-100 hover:border-blue-600">
-              <p class="text-sm font-medium text-blue-700">
+              class="p-4 rounded-lg border-l-4 border-rose-500 transition-colors duration-200 bg-rose-50/80 hover:bg-rose-100 hover:border-rose-600">
+              <p class="text-sm font-medium text-rose-700">
                 <strong class="font-bold">Importante:</strong> Sé respetuoso. Los comentarios son revisados por nuestro
                 equipo.
               </p>
@@ -105,7 +105,7 @@
             <!-- Botón de envío -->
             <div class="flex justify-center">
               <button type="submit"
-                class="px-8 py-3 font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg transition-all duration-200 transform hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:shadow-sm">
+                class="px-8 py-3 font-medium text-white bg-gradient-to-r from-rose-500 to-rose-600 rounded-lg transition-all duration-200 transform hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:shadow-sm">
                 Enviar reclamo
               </button>
             </div>
@@ -272,7 +272,7 @@ const compressImage = async () => {
   console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
 
   const options = {
-    maxSizeMB: 0.07,
+    maxSizeMB: 0.9,
     maxWidthOrHeight: 1920,
     useWebWorker: true
   };

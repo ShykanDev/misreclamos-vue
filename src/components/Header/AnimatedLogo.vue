@@ -8,13 +8,13 @@
   <span class="text-xl font-bold text-rose-500 animate__animated animate__zoomInLeft">mis</span>
   <span
     v-if="toggleDomain"
-    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[50ms] animate__animated animate__zoomInLeft"
+    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-900 to-pink-900 animate-delay-[50ms] animate__animated animate__zoomInLeft"
   >
     reclamos
   </span>
   <span
     v-else
-    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-red-600 animate-delay-[50ms] animate__animated animate__zoomInLeft"
+    class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-900 to-pink-900 animate-delay-[50ms] animate__animated animate__zoomInLeft"
   >
     denuncias
   </span>
