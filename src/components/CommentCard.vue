@@ -76,7 +76,7 @@
       <span class="text-sm font-base text-slate-600">{{answer.date.toDate().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }) }}</span>
     </div>
     <p class="leading-relaxed text-gray-800">{{ answer.answer }}</p>
-  </div>çç
+  </div>
 </div>
 
 
