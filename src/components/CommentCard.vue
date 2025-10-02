@@ -72,11 +72,11 @@
   >
     <div class="flex gap-2 items-center mb-2">
       <v-icon name="hi-user" class="text-rose-600" scale="1" />
-      <span class="text-sm font-medium text-rose-800">{{ answer.userNameTo }}</span>
+      <span class="text-sm font-medium text-rose-800">{{ answer.userNameFrom }}</span>
       <span class="text-sm font-base text-slate-600">{{answer.date.toDate().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }) }}</span>
     </div>
     <p class="leading-relaxed text-gray-800">{{ answer.answer }}</p>
-  </div>
+  </div>çç
 </div>
 
 
