@@ -7,30 +7,31 @@ import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from 'firebase/app'
+import { getAnalytics } from 'firebase/analytics'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCmtsTYySDPpIQ6ASIn0N9LHFqUwm-MLLo",
-  authDomain: "mis-reclamos.firebaseapp.com",
-  projectId: "mis-reclamos",
-  storageBucket: "mis-reclamos.firebasestorage.app",
-  messagingSenderId: "3807456076",
-  appId: "1:3807456076:web:3bfab857b83e51a6217de9",
-  measurementId: "G-CM4YRNN50E"
-};
+  apiKey: 'AIzaSyCmtsTYySDPpIQ6ASIn0N9LHFqUwm-MLLo',
+  authDomain: 'mis-reclamos.firebaseapp.com',
+  projectId: 'mis-reclamos',
+  storageBucket: 'mis-reclamos.firebasestorage.app',
+  messagingSenderId: '3807456076',
+  appId: '1:3807456076:web:3bfab857b83e51a6217de9',
+  measurementId: 'G-CM4YRNN50E',
+}
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-const analytics = getAnalytics(firebaseApp);
+const firebaseApp = initializeApp(firebaseConfig)
+const analytics = getAnalytics(firebaseApp)
 
-
-import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { FaFlag, RiZhihuFill,
+import { OhVueIcon, addIcons } from 'oh-vue-icons'
+import {
+  FaFlag,
+  RiZhihuFill,
   // Font Awesome (fa-*)
   FaShoppingBasket,
   FaWineBottle,
@@ -109,10 +110,17 @@ import { FaFlag, RiZhihuFill,
   HiMenu,
   IoClose,
   RiLoader5Fill,
-  HiCalendar, HiUser, HiOfficeBuilding, HiDocumentText, HiTag, HiEye
- } from "oh-vue-icons/icons";
+  HiCalendar,
+  HiUser,
+  HiOfficeBuilding,
+  HiDocumentText,
+  HiTag,
+  HiEye,
+} from 'oh-vue-icons/icons'
 
-addIcons(FaFlag, RiZhihuFill,
+addIcons(
+  FaFlag,
+  RiZhihuFill,
   // Font Awesome (fa-*)
   FaShoppingBasket,
   FaWineBottle,
@@ -192,15 +200,20 @@ addIcons(FaFlag, RiZhihuFill,
   HiMenu,
   IoClose,
   RiLoader5Fill,
-  HiCalendar, HiUser, HiOfficeBuilding, HiDocumentText, HiTag, HiEye
-);
+  HiCalendar,
+  HiUser,
+  HiOfficeBuilding,
+  HiDocumentText,
+  HiTag,
+  HiEye,
+)
 
-const pinia = createPinia();
+const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 
 app.use(VueViewer)
 app.use(pinia)
 app.use(router)
-app.component("v-icon", OhVueIcon);
+app.component('v-icon', OhVueIcon)
 app.mount('#app')

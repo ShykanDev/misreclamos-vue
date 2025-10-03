@@ -1,5 +1,5 @@
 <template>
-   <article class="mt-2 text-center text-purple-500 hover:text-purple-700">
+  <article class="mt-2 text-center text-purple-500 hover:text-purple-700">
     <div
       class="flex fixed inset-0 z-50 justify-center items-center p-4 backdrop-blur-sm bg-black/40 min-h-dvh"
     >
@@ -92,34 +92,30 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
-import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css'; // for React, Vue and Svelte
-
+import { ref } from 'vue'
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
+import { Notyf } from 'notyf'
+import 'notyf/notyf.min.css' // for React, Vue and Svelte
 
 const notyf = new Notyf({
   position: { x: 'right', y: 'top' },
-});
-const email = ref('');
-const emmits  = defineEmits(['callClose']);
+})
+const email = ref('')
+const emmits = defineEmits(['callClose'])
 
-const auth = getAuth();
-const handleSubmit = async() => {
+const auth = getAuth()
+const handleSubmit = async () => {
   try {
-    await sendPasswordResetEmail(auth, email.value);
-    notyf.success('Se ha enviado un enlace de recuperación a tu correo');
+    await sendPasswordResetEmail(auth, email.value)
+    notyf.success('Se ha enviado un enlace de recuperación a tu correo')
   } catch (error) {
-    notyf.error('Hubo un error al enviar el enlace de recuperación');
+    notyf.error('Hubo un error al enviar el enlace de recuperación')
   }
 }
 
 const closeModal = () => {
-  emmits('callClose');
+  emmits('callClose')
 }
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
