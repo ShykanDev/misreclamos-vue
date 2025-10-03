@@ -41,7 +41,7 @@
               :image="complaint.image"
               :title="complaint.title"
               :user="complaint.userName"
-              :userUID="complaint.userUID"
+              :userUid="complaint.userUid"
               :service="complaint.service"
               :date="complaint.createdAt"
               :userName="complaint.userName"
@@ -62,8 +62,6 @@ import CategoriesComponent from '@/components/MainCategories/CategoriesComponent
 import { useRoute } from 'vue-router'
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
   getFirestore,
   orderBy,

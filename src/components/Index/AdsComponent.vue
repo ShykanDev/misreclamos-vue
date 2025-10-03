@@ -59,7 +59,7 @@
         <legend class="px-2 text-sm font-medium text-gray-500">Publicidad</legend>
         <a href="https://miexpareja.net/" target="_blank" rel="noopener noreferrer" class="block">
           <img
-            src="../assets/img/anuncio-1.png"
+            src="../../assets/img/anuncio-1.png"
             alt="Publicidad"
             class="w-full h-auto rounded-lg"
           />

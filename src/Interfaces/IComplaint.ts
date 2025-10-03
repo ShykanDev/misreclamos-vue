@@ -1,10 +1,13 @@
 import type { Timestamp } from 'firebase/firestore'
 
 export interface IAnswer {
-  userNameTo: string
+  uidTo: string
   answer: string
   date: Timestamp
-  userNameFrom: string
+  uidFrom: string
+  answeringToName: string
+  answeringFromName: string
+  isCompany: boolean
 }
 
 export interface IComplaint {
@@ -17,5 +20,5 @@ export interface IComplaint {
   answers?: IAnswer[]
   image?: string
   userName: string
-  userUID: string
+  userUid: string
 }

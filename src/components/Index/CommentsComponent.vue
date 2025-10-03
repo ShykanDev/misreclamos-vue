@@ -103,10 +103,18 @@ const getComments = () => {
         complaints.value.push({
           ...complaint,
           id: doc.id,
+          answers: complaint.answers?.map((answer) => ({
+            ...answer,
+            id: answer.id,
+          })) || [],
         })
+        console.log(complaint)
       })
       lastVisibleDoc.value = querySnapshot.docs[querySnapshot.docs.length - 1]
       loading.value = false
+    }).then(() => {
+      console.log('Complaints loaded')
+      console.log(complaints.value)
     })
     .catch((error) => {
       console.log(error)

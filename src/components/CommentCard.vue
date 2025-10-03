@@ -1,9 +1,9 @@
 <template>
   <div
-    class="overflow-hidden m-4 mx-auto bg-white rounded-xl border-b-4 border-l-4 border-rose-800 shadow-md md:max-w-7xl"
+    class="overflow-hidden m-4 mx-auto bg-white rounded-xl border border-b-4 border-l-4 border-rose-600 shadow-md transition-all duration-200 ease-out hover:border-rose-400 md:max-w-7xl"
   >
     <div
-      class="p-6 bg-white rounded-xl shadow-sm transition-shadow duration-200 ease-in-out hover:shadow-md"
+      class="p-6 bg-white rounded-xl transition-shadow duration-200 ease-in-out hover:shadow-md"
     >
       <!-- Header -->
       <div class="flex justify-between items-center mb-3">
@@ -15,7 +15,7 @@
         </div>
         <div class="flex gap-1 items-center">
           <v-icon name="hi-user" class="text-gray-800" scale="0.9" />
-          <span class="text-sm font-semibold text-gray-800">{{ userName }}</span>
+          <span translate="no" class="text-sm font-semibold text-gray-800">{{ userName }}</span>
         </div>
       </div>
 
@@ -77,14 +77,13 @@
         class="overflow-y-scroll p-1 mt-6 h-96 rounded-2xl bg-rose-50/50"
       >
         <h3 class="mb-4 text-xl font-bold text-rose-700">{{ answers.length }} respuestas</h3>
-        <div
-          v-for="answer in answers as IAnswer[]"
-          :key="answer.userNameTo"
-          class="p-4 mb-5 bg-rose-50 rounded-xl border-l-4 border-rose-400 shadow-sm transition-shadow duration-200 hover:shadow-md"
+        <div v-for="answer in answers as IAnswer[]" :key="answer.uidTo"
+          class="p-4 mb-5 rounded-xl border-l-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
+          :class="{'bg-blue-50/50 border-blue-800': answer.uidFrom === userUid, 'bg-rose-50 border-rose-400': answer.uidFrom !== userUid && !answer.isCompany, 'bg-green-50 border-green-500': answer.isCompany}"
         >
           <div class="flex gap-2 items-center mb-2">
-            <v-icon name="hi-user" class="text-rose-600" scale="1" />
-            <span class="text-sm font-medium text-rose-800">{{ answer.userNameFrom }}</span>
+            <v-icon name="hi-user" :class="{'text-blue-600': answer.uidFrom === userUid, 'text-red-800': answer.uidFrom !== userUid && !answer.isCompany, 'text-green-800': answer.isCompany}" scale="1" />
+            <span class="text-sm font-medium" :class="{'text-blue-600': answer.uidFrom === userUid, 'text-red-800': answer.uidFrom !== userUid && !answer.isCompany, 'text-green-800': answer.isCompany}">{{ answer.answeringFromName }} <span v-if="answer.isCompany" class="text-green-800 animate-fade-right">en representacion de la empresa/servicio </span></span>
             <span class="text-sm font-base text-slate-600">{{
               answer.date
                 .toDate()
@@ -113,7 +112,7 @@
         </button>
       </div>
     </div>
-    <AnswerComment @callReload="callParentReload" :from-name="userName" :doc-id="docId" />
+    <AnswerComment @callReload="callParentReload" :from-name="userName" :doc-id="docId" :answering-to-name="userName" :answering-to-uid="userUid" />
   </div>
 </template>
 
@@ -121,6 +120,8 @@
 import { Timestamp } from 'firebase/firestore'
 import AnswerComment from './AllCategories/AnswerComment.vue'
 import type { IAnswer } from '@/Interfaces/IComplaint'
+
+//const userUid = auth.currentUser?.uid
 
 const convertDate = (dateParam: Timestamp) => {
   return dateParam.toDate().toLocaleDateString('es-ES', {
@@ -171,6 +172,9 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  userUid:{
+    type:String,
+  }
 })
 
 const iniciales = props.userName.slice(0, 1)
