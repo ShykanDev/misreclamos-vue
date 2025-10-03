@@ -16,7 +16,7 @@
           </h2>
           <RouterLink
             :to="{ name: 'create-comment', params: { category: category } }"
-            class="sticky right-0 top-3 z-10 px-2 py-1 text-white bg-rose-800"
+            class="sticky right-0 top-6 z-10 px-2 py-1 text-rose-800 bg-white rounded-full border border-rose-800 animate-pulse"
             >Crear comentario para {{ category }}</RouterLink
           >
           <div v-if="loading" class="flex flex-col justify-center items-center">
