@@ -10,10 +10,14 @@
     <p class="text-center text-slate-800">Cargando comentarios...</p>
   </div>
   <div v-else>
+    <viewer :images="images">
+    </viewer>
     <CommentCard
+
       v-for="complaint in complaints"
       :key="complaint.id"
       @callReload="answerSent"
+      @callViewer="showImageViewer"
       :category="complaint.category"
       :content="complaint.content"
       :image="complaint.image"
@@ -25,15 +29,10 @@
       :docId="complaint.id"
     />
 
-    <!-- directive
-    <div class="images" v-viewer>
-      <img v-for="src in images" :key="src" :src="src" />
-    </div>
 
-    <viewer :images="images">
-      <img v-for="src in images" :key="src" :src="src" />
-    </viewer>
-    -->
+
+
+
   </div>
 </template>
 
@@ -47,6 +46,7 @@ import type { IComplaint } from '@/Interfaces/IComplaint'
 
 import 'notyf/notyf.min.css'
 import { Notyf } from 'notyf'
+import { api as viewerApi } from 'v-viewer'
 
 const notyf = new Notyf({
   duration: 5000,
@@ -56,6 +56,28 @@ const notyf = new Notyf({
   },
   dismissible: true,
 })
+
+const imageSrc = ref('')
+
+//Image viewer values
+const images = ref([imageSrc.value])
+const show = () => {
+  viewerApi({
+    images: images.value,
+  })
+}
+
+//Update the imageSrc value based on emmit from CommentCard
+const showImageViewer = (imgSrcParam:string):void => {
+  try {
+    imageSrc.value = imgSrcParam;
+    images.value = [imageSrc.value]
+    show();
+  } catch (error) {
+    const e = error as Error;
+    notyf.error(e)
+  }
+}
 
 //Firestore Database
 const db = getFirestore()

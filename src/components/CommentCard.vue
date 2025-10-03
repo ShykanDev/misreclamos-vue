@@ -64,7 +64,7 @@
       <!-- Image (if exists) -->
       <div v-if="image" class="overflow-hidden mb-5 rounded-lg">
         <img
-          @click="show"
+          @click="emmitShowImage(image)"
           :src="image"
           alt="Contenido visual relacionado"
           class="w-md h-auto object-cover transition-transform duration-200 hover:scale-[1.02] cursor-pointer"
@@ -119,8 +119,6 @@
 
 <script setup lang="ts">
 import { Timestamp } from 'firebase/firestore'
-import { api as viewerApi } from 'v-viewer'
-import { ref, watch } from 'vue'
 import AnswerComment from './AllCategories/AnswerComment.vue'
 import type { IAnswer } from '@/Interfaces/IComplaint'
 
@@ -175,21 +173,16 @@ const props = defineProps({
   },
 })
 
-const images = ref([props.image])
-const show = () => {
-  viewerApi({
-    images: images.value,
-  })
-}
 const iniciales = props.userName.slice(0, 1)
 
 const answerComment = () => {
   alert('Function still under development, not available yet')
 }
 
-const emmits = defineEmits(['reload', 'callReload'])
-const callParentReload = () => {
-  emmits('callReload')
 
-}
+
+const emmits = defineEmits(['reload', 'callReload', 'callViewer'])
+const callParentReload = () =>  emmits('callReload');
+
+const emmitShowImage = (image:string):void => emmits("callViewer", image);
 </script>
