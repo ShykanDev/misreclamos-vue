@@ -8,7 +8,7 @@
       <!-- Header -->
       <div class="flex justify-between items-center mb-3">
         <div class="flex gap-1 items-center">
-          <v-icon name="hi-calendar" class="text-gray-400" scale="0.9" />
+          <v-icon name="bi-calendar-4-range" class="text-gray-400" scale="0.9" />
           <time :datetime="date.toDate().toISOString()" class="text-xs font-medium text-gray-400">
             {{ convertDate(date) }}
           </time>
@@ -74,17 +74,18 @@
       <!-- Answers -->
       <div
         v-if="answers.length > 0"
-        class="overflow-y-scroll p-1 mt-6 h-96 rounded-2xl bg-rose-50/50"
+        class="flex overflow-y-scroll flex-col p-2 h-96 rounded-2xl bg-blue-50/50"
       >
-        <h3 class="mb-4 text-xl font-bold text-rose-700">{{ answers.length }} respuestas</h3>
+        <h3 class="mb-4 text-xl font-bold text-slate-700">{{ answers.length }} respuestas</h3>
         <div v-for="answer in answers as IAnswer[]" :key="answer.uidTo"
-          class="relative p-4 mb-5 rounded-xl border-l-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
-          :class="{'bg-blue-50/50 border-blue-800': answer.uidFrom == answer.uidTo , 'bg-rose-50 border-rose-400': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'bg-green-50 border-green-500': answer.isCompany}"
+          class="relative p-5 mb-4 bg-white rounded-md border-l-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
+          :class="{'bg-blue-50/50 border-blue-800': answer.uidFrom == answer.uidTo , 'bg-rose-50 border-rose-400': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'bg-green-50 border-orange-400': answer.isCompany}"
         >
           <div class="flex gap-2 items-center mb-2">
-            <p v-if="answer.uidFrom === answer.uidTo" class="absolute top-0 right-2 text-xs font-semibold text-blue-500">Autor</p>
-            <v-icon name="hi-user" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-green-800': answer.isCompany}" scale="1" />
-            <span class="text-sm font-medium" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-green-800': answer.isCompany}">{{ answer.answeringFromName }} <span v-if="answer.isCompany" class="text-green-800 animate-fade-right">en representacion de la empresa/servicio </span></span>
+            <p v-if="answer.uidFrom === answer.uidTo" class="flex absolute top-1 right-2 gap-1 items-center text-xs font-semibold text-blue-500">Autor <v-icon name="ri-shield-user-fill" scale="0.9" /></p>
+            <v-icon name="hi-user" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-slate-600': answer.isCompany}" scale="1" />
+            <span class="text-sm font-medium" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-slate-600': answer.isCompany}">{{ answer.answeringFromName }}</span>
+            <span v-if="answer.isCompany" class="absolute top-0 right-2 text-xs text-green-600 font-base">Representante de la empresa/servicio <v-icon name="la-user-tie-solid" scale="1.1" /></span>
             <span class="text-sm font-base text-slate-600">{{
               answer.date
                 .toDate()
@@ -100,8 +101,6 @@
             }}</span>
           </div>
           <p class="leading-relaxed text-gray-800">{{ answer.answer }}
-            <span>{{ answer.uidFrom }}||</span>
-            <span>{{ answer.uidTo }}</span>
           </p>
         </div>
       </div>

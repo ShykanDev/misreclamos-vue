@@ -116,6 +116,11 @@ import {
   HiDocumentText,
   HiTag,
   HiEye,
+  FaUserEdit,
+  RiShieldUserFill,
+  LaUserTieSolid,
+  BiCalendar3,
+  BiCalendar4Range
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -206,6 +211,11 @@ addIcons(
   HiDocumentText,
   HiTag,
   HiEye,
+  FaUserEdit,
+  RiShieldUserFill,
+  LaUserTieSolid,
+  BiCalendar3,
+  BiCalendar4Range
 )
 
 const pinia = createPinia()
