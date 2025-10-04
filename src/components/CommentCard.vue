@@ -79,12 +79,12 @@
         <h3 class="mb-4 text-xl font-bold text-rose-700">{{ answers.length }} respuestas</h3>
         <div v-for="answer in answers as IAnswer[]" :key="answer.uidTo"
           class="relative p-4 mb-5 rounded-xl border-l-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
-          :class="{'bg-blue-50/50 border-blue-800': answer.uidFrom === userUid, 'bg-rose-50 border-rose-400': answer.uidFrom !== userUid && !answer.isCompany, 'bg-green-50 border-green-500': answer.isCompany}"
+          :class="{'bg-blue-50/50 border-blue-800': answer.uidFrom == answer.uidTo , 'bg-rose-50 border-rose-400': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'bg-green-50 border-green-500': answer.isCompany}"
         >
           <div class="flex gap-2 items-center mb-2">
-            <p v-if="answer.uidFrom === userUid" class="absolute top-0 right-2 text-xs font-semibold text-blue-500">Autor</p>
-            <v-icon name="hi-user" :class="{'text-blue-600': answer.uidFrom === userUid, 'text-red-800': answer.uidFrom !== userUid && !answer.isCompany, 'text-green-800': answer.isCompany}" scale="1" />
-            <span class="text-sm font-medium" :class="{'text-blue-600': answer.uidFrom === userUid, 'text-red-800': answer.uidFrom !== userUid && !answer.isCompany, 'text-green-800': answer.isCompany}">{{ answer.answeringFromName }} <span v-if="answer.isCompany" class="text-green-800 animate-fade-right">en representacion de la empresa/servicio </span></span>
+            <p v-if="answer.uidFrom === answer.uidTo" class="absolute top-0 right-2 text-xs font-semibold text-blue-500">Autor</p>
+            <v-icon name="hi-user" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-green-800': answer.isCompany}" scale="1" />
+            <span class="text-sm font-medium" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-green-800': answer.isCompany}">{{ answer.answeringFromName }} <span v-if="answer.isCompany" class="text-green-800 animate-fade-right">en representacion de la empresa/servicio </span></span>
             <span class="text-sm font-base text-slate-600">{{
               answer.date
                 .toDate()
@@ -99,7 +99,10 @@
                 })
             }}</span>
           </div>
-          <p class="leading-relaxed text-gray-800">{{ answer.answer }}</p>
+          <p class="leading-relaxed text-gray-800">{{ answer.answer }}
+            <span>{{ answer.uidFrom }}||</span>
+            <span>{{ answer.uidTo }}</span>
+          </p>
         </div>
       </div>
 
@@ -122,7 +125,7 @@ import { Timestamp } from 'firebase/firestore'
 import AnswerComment from './AllCategories/AnswerComment.vue'
 import type { IAnswer } from '@/Interfaces/IComplaint'
 
-//const userUid = auth.currentUser?.uid
+//const answer.uidTo = auth.currentUser?.uid
 
 const convertDate = (dateParam: Timestamp) => {
   return dateParam.toDate().toLocaleDateString('es-ES', {

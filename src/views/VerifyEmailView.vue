@@ -236,8 +236,8 @@ const resetPassword = async () => {
     notyf.error('Por favor ingrese su nueva contraseña')
     return
   }
-  if (newPassword.value.length < 6) {
-    notyf.error('La contraseña debe tener al menos 6 caracteres')
+  if (newPassword.value.length < 8) {
+    notyf.error('La contraseña debe tener al menos 8 caracteres')
     return
   }
   if (!/[A-Z]/.test(newPassword.value)) {

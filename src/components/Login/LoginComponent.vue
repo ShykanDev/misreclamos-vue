@@ -257,6 +257,7 @@ const handleLogin = () => {
 const handleResetPassword = async () => {
   try {
     await sendPasswordResetEmail(auth, email.value)
+    notyf.success('Correo enviado, por favor verifique su bandeja de entrada, spam o correo no deseado')
     console.log('Correo enviado')
   } catch (error) {
     console.log(error)
