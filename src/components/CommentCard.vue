@@ -3,50 +3,10 @@
     class="overflow-hidden m-4 mx-auto bg-white rounded-xl border border-b-4 border-l-4 border-rose-600 shadow-md transition-all duration-200 ease-out hover:border-rose-400 md:max-w-7xl"
   >
     <div
-      class="p-6 bg-white rounded-xl transition-shadow duration-200 ease-in-out hover:shadow-md"
+      class="p-6 rounded-xl transition-shadow duration-200 ease-in-out hover:shadow-md bg-slate-50"
     >
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-3">
-        <div class="flex gap-1 items-center">
-          <v-icon name="bi-calendar-4-range" class="text-gray-400" scale="0.9" />
-          <time :datetime="date.toDate().toISOString()" class="text-xs font-medium text-gray-400">
-            {{ convertDate(date) }}
-          </time>
-        </div>
-        <div class="flex gap-1 items-center">
-          <v-icon name="hi-user" class="text-gray-800" scale="0.9" />
-          <span translate="no" class="text-sm font-semibold text-gray-800">{{ userName }}</span>
-        </div>
-      </div>
-
-      <!-- Service Tag -->
-      <div class="mb-4">
-        <div class="inline-flex gap-2 items-center">
-          <v-icon name="hi-office-building" class="text-gray-500" scale="0.9" />
-          <span class="text-sm font-medium text-gray-500">Empresa/Servicio:</span>
-          <span
-            class="inline-block px-3 py-1 text-sm font-semibold text-rose-600 bg-rose-50 rounded-full"
-          >
-            {{ service }}
-          </span>
-        </div>
-      </div>
-
-      <!-- User Avatar & Title -->
-      <div class="flex gap-3 items-center mb-4">
-        <div
-          class="flex flex-shrink-0 justify-center items-center w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full"
-        >
-          <span class="font-medium text-gray-600">{{ iniciales }}</span>
-        </div>
-        <div class="flex gap-1 items-center">
-          <v-icon name="hi-document-text" class="text-gray-800" scale="0.9" />
-          <h2 class="text-lg font-bold text-rose-600">{{ title }}</h2>
-        </div>
-      </div>
-
-      <!-- Category -->
-      <div class="mb-3">
+     <!-- Category -->
+     <div class="mb-3">
         <div class="inline-flex gap-1 items-center">
           <v-icon name="hi-tag" class="text-rose-600" scale="0.9" />
           <span class="inline-block px-2 py-1 text-xs font-medium text-rose-600 bg-rose-50 rounded"
@@ -55,6 +15,46 @@
           </span>
         </div>
       </div>
+
+       <div class="mb-4">
+        <div class="inline-flex gap-2 items-center">
+          <v-icon name="hi-office-building" class="text-gray-500" scale="0.9" />
+          <span class="text-sm font-medium text-gray-500">Empresa/Servicio:</span>
+          <span
+            class="inline-block px-2 py-0.5 text-sm font-semibold rounded-full bg-slate-100 text-slate-600"
+          >
+            {{ service }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <div class="flex gap-2 items-center mb-3">
+        <div class="flex gap-1 items-center">
+          <v-icon name="hi-user" class="text-gray-800" scale="0.9" />
+          <span translate="no" class="text-sm font-semibold text-gray-800">{{ userName }}</span>
+        </div>
+        <div class="flex gap-1 items-center">
+          <v-icon name="hi-calendar" class="text-gray-400" scale="0.9" />
+          <span :datetime="date.toDate().toISOString()" class="text-xs font-medium text-gray-400">
+            {{ convertDate(date) }}
+          </span>
+        </div>
+
+      </div>
+
+
+
+      <!-- User Avatar & Title -->
+      <div class="flex gap-3 items-center mb-4">
+
+        <div class="flex gap-1 items-center">
+          <v-icon name="hi-document-text" class="text-gray-800" scale="0.9" />
+          <h2 class="px-2 py-1 text-lg font-semibold rounded-full bg-slate-100 text-slate-600">❝{{ title }}❞</h2>
+        </div>
+      </div>
+
+
 
       <!-- Content -->
       <div class="mb-5 max-w-none text-gray-700 prose prose-sm">
@@ -76,16 +76,16 @@
         v-if="answers.length > 0"
         class="flex overflow-y-scroll flex-col p-2 h-96 rounded-2xl bg-blue-50/50"
       >
-        <h3 class="mb-4 text-xl font-bold text-slate-700">{{ answers.length }} respuestas</h3>
+       <div class="min"></div>
         <div v-for="answer in answers as IAnswer[]" :key="answer.uidTo"
           class="relative p-5 mb-4 bg-white rounded-md border-l-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
-          :class="{'bg-blue-50/50 border-blue-800': answer.uidFrom == answer.uidTo , 'bg-rose-50 border-rose-400': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'bg-green-50 border-orange-400': answer.isCompany}"
+          :class="{'bg-blue-50/50 border-blue-200': answer.uidFrom == answer.uidTo , 'bg-rose-50 border-slate-200': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'bg-green-50 border-green-200': answer.isCompany}"
         >
           <div class="flex gap-2 items-center mb-2">
             <p v-if="answer.uidFrom === answer.uidTo" class="flex absolute top-1 right-2 gap-1 items-center text-xs font-semibold text-blue-500">Autor <v-icon name="ri-shield-user-fill" scale="0.9" /></p>
-            <v-icon name="hi-user" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-slate-600': answer.isCompany}" scale="1" />
-            <span class="text-sm font-medium" :class="{'text-blue-600': answer.uidFrom === answer.uidTo && !answer.isCompany, 'text-red-800': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'text-slate-600': answer.isCompany}">{{ answer.answeringFromName }}</span>
-            <span v-if="answer.isCompany" class="absolute top-0 right-2 text-xs text-green-600 font-base">Representante de la empresa/servicio <v-icon name="la-user-tie-solid" scale="1.1" /></span>
+          <span v-if="answer.uidFrom" class="flex justify-center items-center w-6 h-6 text-xs font-semibold text-white rounded-full" :class="{'bg-blue-900': answer.uidFrom == answer.uidTo , 'bg-slate-400': answer.uidFrom !== answer.uidTo && !answer.isCompany, 'bg-green-900 border-orange-400': answer.isCompany}">{{ answer.answeringFromName.slice(0, 1) }}</span>
+            <span class="text-sm font-medium" >{{ answer.answeringFromName }}</span>
+            <span v-if="answer.isCompany" class="absolute top-0 right-2 text-xs text-green-800 font-base">Representante de la empresa/servicio <v-icon name="la-user-tie-solid" scale="1.1" /></span>
             <span class="text-sm font-base text-slate-600">{{
               answer.date
                 .toDate()

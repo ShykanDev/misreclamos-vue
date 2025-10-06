@@ -120,7 +120,8 @@ import {
   RiShieldUserFill,
   LaUserTieSolid,
   BiCalendar3,
-  BiCalendar4Range
+  BiCalendar4Range,
+  BiReplyAllFill
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -215,7 +216,8 @@ addIcons(
   RiShieldUserFill,
   LaUserTieSolid,
   BiCalendar3,
-  BiCalendar4Range
+  BiCalendar4Range,
+  BiReplyAllFill
 )
 
 const pinia = createPinia()

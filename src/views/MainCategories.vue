@@ -6,7 +6,7 @@
       <HomeInitial />
 
       <!--Start of the comments UI-->
-      <section class="grid grid-cols-1 w-full bg-gradient-to-b from-blue-50 to-gray-100 md:grid-cols-3">
+      <section class="grid grid-cols-[1fr_2fr_1fr] w-full bg-gradient-to-b  from-blue-50 to-gray-100 ">
         <!--Categories-->
         <article class="overflow-y-scroll h-dvh">
           <CategoriesComponent />

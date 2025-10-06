@@ -462,6 +462,7 @@ const complaintObject = reactive({
   createdAt: {},
   service: '',
 })
+
 const complaintObjectMock = reactive({
   userName: auth.currentUser?.displayName || 'Anonimo',
   title: 'Producto en mal estado y pésima atención',

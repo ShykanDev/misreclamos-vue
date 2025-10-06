@@ -8,6 +8,7 @@ export interface IAnswer {
   answeringToName: string
   answeringFromName: string
   isCompany: boolean
+  image?: string
 }
 
 export interface IComplaint {
