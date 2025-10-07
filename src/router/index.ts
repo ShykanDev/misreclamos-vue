@@ -38,6 +38,11 @@ const router = createRouter({
       name: 'all-categories',
       component: () => import('../views/AllCategoriesView.vue'),
     },
+    {
+      path: '/search-comment',
+      name: 'search-comment',
+      component: () => import('../views/SearchComment.vue'),
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 }
