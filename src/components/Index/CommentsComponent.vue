@@ -10,10 +10,8 @@
     <p class="text-center text-slate-800">Cargando comentarios...</p>
   </div>
   <div v-else>
-    <viewer :images="images">
-    </viewer>
+    <viewer :images="images"> </viewer>
     <CommentCard
-
       v-for="complaint in complaints"
       :key="complaint.id"
       @callReload="answerSent"
@@ -28,11 +26,6 @@
       :answers="complaint.answers"
       :docId="complaint.id"
     />
-
-
-
-
-
   </div>
 </template>
 
@@ -47,6 +40,7 @@ import type { IComplaint } from '@/Interfaces/IComplaint'
 import 'notyf/notyf.min.css'
 import { Notyf } from 'notyf'
 import { api as viewerApi } from 'v-viewer'
+import AnswerComment from '../AllCategories/AnswerComment.vue'
 
 const notyf = new Notyf({
   duration: 5000,
@@ -68,13 +62,13 @@ const show = () => {
 }
 
 //Update the imageSrc value based on emmit from CommentCard
-const showImageViewer = (imgSrcParam:string):void => {
+const showImageViewer = (imgSrcParam: string): void => {
   try {
-    imageSrc.value = imgSrcParam;
+    imageSrc.value = imgSrcParam
     images.value = [imageSrc.value]
-    show();
+    show()
   } catch (error) {
-    const e = error as Error;
+    const e = error as Error
     notyf.error(e)
   }
 }
@@ -103,16 +97,18 @@ const getComments = () => {
         complaints.value.push({
           ...complaint,
           id: doc.id,
-          answers: complaint.answers?.map((answer) => ({
-            ...answer,
-            id: answer.id,
-          })) || [],
+          answers:
+            complaint.answers?.map((answer) => ({
+              ...answer,
+              id: answer.id,
+            })) || [],
         })
         console.log(complaint)
       })
       lastVisibleDoc.value = querySnapshot.docs[querySnapshot.docs.length - 1]
       loading.value = false
-    }).then(() => {
+    })
+    .then(() => {
       console.log('Complaints loaded')
       console.log(complaints.value)
     })
@@ -129,8 +125,20 @@ const answerSent = () => {
   getComments()
 }
 
+//Set last comment date
+const setLastComment = (date: string) => complaints.value.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime())[0].createdAt.toDate().toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hour12: true,
+})
+
 //On mounted get comments
 onMounted(() => {
+
   getComments()
 })
 </script>

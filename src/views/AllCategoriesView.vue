@@ -17,7 +17,7 @@
           <RouterLink
             :to="{ name: 'create-comment', params: { category: category } }"
             class="sticky right-0 top-6 z-10 px-2 py-1 text-rose-800 bg-white rounded-full border border-rose-800 animate-pulse"
-            >Crear comentario para {{ category }}</RouterLink
+            >Crear comentario  {{ category }}</RouterLink
           >
           <div v-if="loading" class="flex flex-col justify-center items-center">
             <v-icon
@@ -34,6 +34,7 @@
               v-for="complaint in complaints"
               :key="complaint.id"
               @callReload="answerSent"
+              @callViewer="showImageViewer"
               :category="complaint.category"
               :content="complaint.content"
               :createdAt="complaint.createdAt"
@@ -60,18 +61,13 @@
 import MainLayout from '@/layouts/MainLayout.vue'
 import CategoriesComponent from '@/components/MainCategories/CategoriesComponent.vue'
 import { useRoute } from 'vue-router'
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  orderBy,
-  query,
-  where,
-} from 'firebase/firestore'
+import { collection, getDocs, getFirestore, orderBy, query, where } from 'firebase/firestore'
 import type { IComplaint } from '@/Interfaces/IComplaint'
 import { computed, onMounted, ref, watch } from 'vue'
 import CommentCard from '@/components/CommentCard.vue'
 import EmptyAnimation from '@/animations/Loaders/EmptyAnimation.vue'
+import { api as viewerApi } from 'v-viewer'
+
 const route = useRoute()
 
 const complaints = ref<IComplaint[]>([])
@@ -127,10 +123,30 @@ watch(
   },
 )
 
+//Update the imageSrc value based on emmit from CommentCard
+const showImageViewer = (imgSrcParam: string): void => {
+  try {
+    imageSrc.value = imgSrcParam
+    images.value = [imageSrc.value]
+    show()
+  } catch (error) {
+    const e = error as Error
+    console.error(e)
+  }
+}
+
 const answerSent = () => {
   getComplaints()
 }
 
+const imageSrc = ref('')
+//Image viewer values
+const images = ref([imageSrc.value  ])
+const show = () => {
+  viewerApi({
+    images: images.value,
+  })
+}
 onMounted(() => {
   getComplaints()
 })

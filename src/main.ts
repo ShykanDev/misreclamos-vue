@@ -121,7 +121,9 @@ import {
   LaUserTieSolid,
   BiCalendar3,
   BiCalendar4Range,
-  BiReplyAllFill
+  BiReplyAllFill,
+  HiSolidChatAlt2,
+  FaEye
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -217,7 +219,9 @@ addIcons(
   LaUserTieSolid,
   BiCalendar3,
   BiCalendar4Range,
-  BiReplyAllFill
+  BiReplyAllFill,
+  HiSolidChatAlt2,
+  FaEye
 )
 
 const pinia = createPinia()

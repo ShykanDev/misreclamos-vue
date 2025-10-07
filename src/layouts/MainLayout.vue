@@ -193,7 +193,8 @@
       <!-- Copyright -->
       <div class="pt-6 text-center text-rose-900 border-t border-rose-800">
         <p>
-          misreclamos.com <span id="year"></span> &copy; Todos los derechos reservados <span>sitio actualizado por: <span >PACA</span></span>
+          misreclamos.com <span id="year"></span> &copy; Todos los derechos reservados
+          <span>sitio actualizado por: <span>PACA</span></span>
         </p>
       </div>
     </div>

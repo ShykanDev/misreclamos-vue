@@ -182,7 +182,13 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import imageCompression from 'browser-image-compression'
+import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
+import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
+import LoaderA from '@/animations/Loaders/LoaderA.vue'
+
+//Ui Values
 const loading = ref(false)
 const notyf = new Notyf({
   position: {
@@ -192,9 +198,15 @@ const notyf = new Notyf({
   duration: 5000,
   dismissible: true,
 })
+
+//Route & Route
 const route = useRoute()
+const router = useRouter()
 const category = route.params.category || ''
 const isDark = ref(false)
+
+
+//Categories array
 const fullCategories = [
   {
     name: 'Abarrotes y Bebidas',
@@ -416,27 +428,21 @@ const fullCategories = [
   },
 ]
 
-const selectedCategory = ref('')
+// Images configuration for the form
 const imageSelected = ref()
 const imgFileInput = ref<HTMLInputElement | null>(null)
-
 const imageFileValue = ref()
+const compressedImageBase64 = ref()
 const handleFileInputChange = (e: Event) => {
   if (e.target) {
-    console.log(e.target.files[0])
     imageSelected.value = URL.createObjectURL(e.target.files[0])
     imageFileValue.value = e.target.files[0]
   }
 }
+const removeImage = () => imageSelected.value = '';
+const renewImage = () => imgFileInput.value?.click();
 
-const removeImage = () => {
-  imageSelected.value = ''
-}
-const renewImage = () => {
-  imgFileInput.value?.click()
-}
-const router = useRouter()
-//Verify that param from query is valid and exists in fullCategories
+//Verify that param from query is valid and exists in fullCategories when component is mounted
 const verifyParamIsValid = () => {
   const param = route.params.category
   if (!param) router.push({ name: 'home' })
@@ -446,12 +452,8 @@ const verifyParamIsValid = () => {
   }
   complaintObject.category = param
 }
-import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
-import { Notyf } from 'notyf'
-import LoaderA from '@/animations/Loaders/LoaderA.vue'
 
-const auth = getAuth()
+//Complaint object to send to Firestore
 const complaintObject = reactive({
   userName: auth.currentUser?.displayName || 'Anonimo',
   title: '',
@@ -463,21 +465,7 @@ const complaintObject = reactive({
   service: '',
 })
 
-const complaintObjectMock = reactive({
-  userName: auth.currentUser?.displayName || 'Anonimo',
-  title: 'Producto en mal estado y pésima atención',
-  category: 'Reclamo de producto',
-  description: `Compré un paquete de pan Bimbo hace dos días y estaba completamente mohoso al abrirlo.
-No entiendo cómo una empresa tan grande puede permitir que lleguen productos así al consumidor.
-Intenté comunicarme con atención a clientes y me respondieron tarde y de manera muy genérica,
-sin ofrecer solución alguna. Es increíble que tenga que perder tiempo y dinero por algo que debería
-ser básico: productos frescos y servicio decente. Exijo que revisen este lote y den alguna compensación.`,
-  image: 'https://tu-url-de-imagen-aqui.com/imagen.jpg', // reemplaza esta URL
-  userUid: 'Zp8Qx9Lm4Kj2Rt7Gh3VeY6Fb1Dn5ScLq', // UID aleatorio largo estilo Firebase
-  createdAt: Timestamp.now(),
-  service: 'Bimbo',
-})
-
+//Function to convert file to base64
 function toBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -487,36 +475,36 @@ function toBase64(file: File) {
   })
 }
 
+//Firebase
+const auth = getAuth()
 const db = getFirestore()
 const complaintsCollection = collection(db, 'complaints')
-const compressedImageBase64 = ref()
+
+//Async function to compress image and convert to base64
 const compressImage = async () => {
   if (!imageFileValue.value) {
     notyf.error('No se seleccionó una imagen')
     return false
   }
-
   const imageFile = imageFileValue.value
   console.log('originalFile instanceof Blob', imageFile instanceof Blob) // true
   console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`)
-
   const options = {
     maxSizeMB: 0.9,
     maxWidthOrHeight: 1920,
     useWebWorker: true,
   }
-
   loading.value = true
   try {
     const compressedFile = await imageCompression(imageFile, options)
     console.log('compressedFile instanceof Blob', compressedFile instanceof Blob)
     console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`)
-
     compressedImageBase64.value = await toBase64(compressedFile)
     console.log('compressedImageBase64', compressedImageBase64.value)
     complaintObject.image = compressedImageBase64.value
     return true
   } catch (error: any) {
+    notyf.error(`Error al comprimir la imagen ${error}` )
     console.log(error.message)
     return false
   } finally {
@@ -524,6 +512,7 @@ const compressImage = async () => {
   }
 }
 
+//Verify fields before sending to Firestore
 const verifyFields = () => {
   if (!complaintObject.category) {
     notyf.error('Debe seleccionar una categoría')
@@ -537,12 +526,12 @@ const verifyFields = () => {
     notyf.error('Debe ingresar una descripción')
     return false
   }
-
   return true
 }
+
+//Send complaint to Firestore
 const sendComplaint = async () => {
   if (!verifyFields()) return
-
   if (imageSelected.value) {
     await compressImage()
     if (!compressedImageBase64.value) return
@@ -551,9 +540,7 @@ const sendComplaint = async () => {
   complaintObject.userUid = auth.currentUser?.uid || ''
   complaintObject.createdAt = Timestamp.now()
   addDoc(complaintsCollection, complaintObject)
-    .then((docRef) => {
-      console.log('Doc was sent successfully')
-      console.log('docRef:', docRef)
+    .then(() => {
       notyf.success('Reclamo enviado correctamente')
       complaintObject.category = ''
       complaintObject.content = ''
@@ -576,10 +563,9 @@ const sendComplaint = async () => {
     })
 }
 
-onMounted(() => {
-  verifyParamIsValid()
-})
+onMounted(() => verifyParamIsValid())
 </script>
+
 
 <style scoped>
 .bgStyle {

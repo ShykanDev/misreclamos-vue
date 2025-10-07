@@ -3,8 +3,7 @@ name: Deploy Vue app to GitHub Pages
 on:
   push:
     branches:
-      - main  # aqui no se si va main o gh-pages bro 
-
+      - main  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
