@@ -123,7 +123,8 @@ import {
   BiCalendar4Range,
   BiReplyAllFill,
   HiSolidChatAlt2,
-  FaEye
+  FaEye,
+  MdPostaddOutlined
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -221,7 +222,8 @@ addIcons(
   BiCalendar4Range,
   BiReplyAllFill,
   HiSolidChatAlt2,
-  FaEye
+  FaEye,
+  MdPostaddOutlined
 )
 
 const pinia = createPinia()

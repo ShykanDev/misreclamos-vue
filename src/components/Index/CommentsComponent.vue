@@ -86,9 +86,10 @@ const loading = ref(true)
 //Last visible document
 const lastVisibleDoc = ref<DocumentSnapshot | null>(null)
 
+const complaintsLimit = ref(5)
 //Get comments
 const getComments = () => {
-  const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'), limit(10))
+  const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'), limit(complaintsLimit.value))
   getDocs(qGetComplaints)
     .then((querySnapshot) => {
       loading.value = true

@@ -1,7 +1,7 @@
 <template>
   <div
     class="overflow-hidden m-4 mx-auto bg-white rounded-xl border border-b-4 border-l-4 border-rose-600 shadow-md transition-all duration-200 ease-out hover:border-rose-400 md:max-w-7xl">
-    <div class="p-6 rounded-xl transition-shadow duration-200 ease-in-out hover:shadow-md bg-slate-50">
+    <div class="p-6 rounded-xl transition-shadow duration-200 ease-in-out bg-slate-50 hover:shadow-md">
       <!-- Category -->
       <div class="mb-3">
         <div class="inline-flex gap-1 items-center">
@@ -21,7 +21,6 @@
           </span>
         </div>
       </div>
-
       <!-- Header -->
       <div class="flex gap-2 items-center mb-3">
         <div class="flex gap-1 items-center">
@@ -64,7 +63,7 @@
           class="relative p-5 mb-4 bg-white rounded-md border-l-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
           :class="{
             'bg-blue-50/50 border-blue-200': answer.uidFrom == answer.uidTo,
-            'bg-rose-50 border-slate-200': answer.uidFrom !== answer.uidTo && !answer.isCompany,
+            'bg-rose-50 border-slate-300': answer.uidFrom !== answer.uidTo && !answer.isCompany,
             'bg-green-50 border-green-200': answer.isCompany,
           }">
           <div class="flex gap-2 items-center mb-2">
@@ -107,14 +106,14 @@
       </div>
 
       <!-- Action Button -->
-      <div class="hidden pt-4 bg-yellow-700 border-t border-gray-100">
+      <div class="pt-4 border-t border-gray-100">
         <button @click="answerComment"
           class="flex gap-2 justify-center items-center px-4 py-2.5 w-full text-sm font-medium text-white bg-gradient-to-r from-rose-600 to-rose-700 rounded-lg shadow-sm transition-colors hover:from-rose-700 hover:to-rose-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
           Responder Comentario
         </button>
       </div>
     </div>
-    <AnswerComment @callReload="callParentReload" :from-name="userName" :doc-id="docId" :answering-to-name="userName"
+    <AnswerComment v-if="showReplyCard" @callReload="callParentReload" @callClose="toggleReplyCard" :from-name="userName" :doc-id="docId" :answering-to-name="userName"
       :answering-to-uid="userUid" />
   </div>
 </template>
@@ -123,6 +122,7 @@
 import { Timestamp } from 'firebase/firestore'
 import AnswerComment from './AllCategories/AnswerComment.vue'
 import type { IAnswer } from '@/Interfaces/IComplaint'
+import { ref } from 'vue'
 
 //Convert date from props to legible date
 const convertDate = (dateParam: Timestamp) => {
@@ -183,7 +183,7 @@ const props = defineProps({
 
 //Toggle the view of the comment
 const answerComment = () => {
-  alert('Function still under development, not available yet')
+  toggleReplyCard()
 }
 
 //emmits
@@ -194,4 +194,9 @@ const callParentReload = () => emmits('callReload')
 
 //once user clicks  on an image this function set the values and show the image
 const emmitShowImage = (image: string): void => emmits('callViewer', image)
+
+//show reply comment card
+const showReplyCard = ref(false);
+
+const toggleReplyCard = () => showReplyCard.value = !showReplyCard.value;
 </script>

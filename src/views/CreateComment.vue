@@ -453,17 +453,6 @@ const verifyParamIsValid = () => {
   complaintObject.category = param
 }
 
-//Complaint object to send to Firestore
-const complaintObject = reactive({
-  userName: auth.currentUser?.displayName || 'Anonimo',
-  title: '',
-  category: '',
-  content: '',
-  image: '',
-  userUid: '',
-  createdAt: {},
-  service: '',
-})
 
 //Function to convert file to base64
 function toBase64(file: File) {
@@ -480,6 +469,18 @@ const auth = getAuth()
 const db = getFirestore()
 const complaintsCollection = collection(db, 'complaints')
 
+//Complaint object to send to Firestore
+const complaintObject = reactive({
+  userName: auth.currentUser?.displayName || 'Anonimo',
+  title: '',
+  category: '',
+  content: '',
+  image: '',
+  userUid: '',
+  createdAt: {},
+  service: '',
+})
+
 //Async function to compress image and convert to base64
 const compressImage = async () => {
   if (!imageFileValue.value) {
@@ -490,8 +491,8 @@ const compressImage = async () => {
   console.log('originalFile instanceof Blob', imageFile instanceof Blob) // true
   console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`)
   const options = {
-    maxSizeMB: 0.9,
-    maxWidthOrHeight: 1920,
+    maxSizeMB: 0.2,
+    maxWidthOrHeight: 1100,
     useWebWorker: true,
   }
   loading.value = true

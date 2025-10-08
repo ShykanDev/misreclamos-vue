@@ -7,18 +7,20 @@
         </div>
 
         <div class="overflow-y-scroll relative col-span-2 h-dvh">
-          <h2 class="sticky top-0 left-0 z-10 px-2 py-1 text-rose-800 bg-white">
+          <h2 class="sticky top-0 z-10 px-2 py-1 text-rose-800">
             {{
               category === 'default'
                 ? 'Comentarios Generales'
                 : 'Comentarios de la categoría: ' + category
             }}
           </h2>
-          <RouterLink
+          <div class="flex justify-end">
+          <RouterLink v-if="category !== 'default'"
             :to="{ name: 'create-comment', params: { category: category } }"
-            class="sticky right-0 top-6 z-10 px-2 py-1 text-rose-800 bg-white rounded-full border border-rose-800 animate-pulse"
-            >Crear comentario  {{ category }}</RouterLink
+            class="flex sticky right-5 top-6 z-10 gap-2 items-center px-2 py-1 text-white bg-rose-800 rounded-full border border-rose-400 transition-transform duration-200 ease-in-out hover:bg-rose-600 hover:-translate-y-0.5"
+            ><v-icon name="md-postadd-outlined" scale="1.5" /> Crear comentario  {{ category }}</RouterLink
           >
+          </div>
           <div v-if="loading" class="flex flex-col justify-center items-center">
             <v-icon
               name="ri-loader-5-fill"

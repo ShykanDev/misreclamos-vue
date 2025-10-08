@@ -14,10 +14,8 @@
         </article>
 
         <!--Comments-->
-        <article class="overflow-y-scroll h-dvh">
-          <h2 class="flex sticky top-0 z-10 gap-2 items-center p-2 text-xl font-bold text-center text-white bg-rose-800 rounded-md just"> <v-icon name="hi-solid-chat-alt-2" class="text-white" scale="2" /> Comentarios mas recientes
-
-          </h2>
+        <article class="overflow-y-scroll px-2 h-dvh">
+          <h2 class="flex sticky top-0 z-10 gap-2 items-center p-2 text-xl font-bold text-center text-white bg-rose-800 rounded-md just"> <v-icon name="hi-solid-chat-alt-2" class="text-white" scale="2" /> Comentarios mas recientes</h2>
           <CommentsComponent />
         </article>
 

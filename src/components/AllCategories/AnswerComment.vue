@@ -142,7 +142,7 @@ import imageCompression from 'browser-image-compression'
 import CheckboxComponent from './CheckboxComponent.vue'
 
 //emmits
-const emit = defineEmits(['callReload'])
+const emit = defineEmits(['callReload']);
 
 //ui notifications
 const notyf = new Notyf({
@@ -165,9 +165,7 @@ const handleFileInputChange = (e: Event) => { //handle image selection
     imageFileValue.value = e.target.files[0]
   }
 }
-const removeImage = () => { //remove image selection
-  imageSelected.value = ''
-}
+const removeImage = () => imageSelected.value = '' //remove image selection
 function toBase64(file: File) { //convert file to base64
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -176,6 +174,8 @@ function toBase64(file: File) { //convert file to base64
     reader.onerror = (error) => reject(error)
   })
 }
+
+//image compression
 const compressedImageBase64 = ref()
 
 const compressImage = async () => { //compress image and convert to base64
@@ -189,8 +189,8 @@ const compressImage = async () => { //compress image and convert to base64
   console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`)
 
   const options = {
-    maxSizeMB: 0.9,
-    maxWidthOrHeight: 1920,
+    maxSizeMB: 0.2,
+    maxWidthOrHeight: 1000,
     useWebWorker: true,
   }
 
