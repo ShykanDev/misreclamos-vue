@@ -124,7 +124,16 @@ import {
   BiReplyAllFill,
   HiSolidChatAlt2,
   FaEye,
-  MdPostaddOutlined
+  MdPostaddOutlined,
+  IoCloseCircleSharp,
+    FaUserShield,
+  FaLock,
+  FaUserCog,
+  FaChartBar,
+  FaUserFriends,
+  FaEnvelope,
+  FaFileContract,
+  FaInfoCircle,
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -223,7 +232,17 @@ addIcons(
   BiReplyAllFill,
   HiSolidChatAlt2,
   FaEye,
-  MdPostaddOutlined
+  MdPostaddOutlined,
+  IoCloseCircleSharp,
+    FaUserShield,
+  FaLock,
+  FaUserCog,
+  FaChartBar,
+  FaUserFriends,
+  FaEnvelope,
+  FaFileContract,
+  FaShieldAlt,
+  FaInfoCircle,
 )
 
 const pinia = createPinia()

@@ -1,7 +1,7 @@
 <template>
   <div
-    class="overflow-hidden m-4 mx-auto bg-white rounded-xl border border-b-4 border-l-4 border-rose-600 shadow-md transition-all duration-200 ease-out hover:border-rose-400 md:max-w-7xl">
-    <div class="p-6 rounded-xl transition-shadow duration-200 ease-in-out bg-slate-50 hover:shadow-md">
+    class="overflow-hidden m-4 mx-auto w-full bg-white rounded-xl border border-b-4 border-l-4 border-rose-600 shadow-md transition-all duration-200 ease-out hover:border-rose-400">
+    <div class="p-6 rounded-xl transition-shadow duration-200 ease-in-out bg-blue-50/55 hover:shadow-md">
       <!-- Category -->
       <div class="mb-3">
         <div class="inline-flex gap-1 items-center">
@@ -28,8 +28,8 @@
           <span translate="no" class="text-sm font-semibold text-gray-800">{{ userName }}</span>
         </div>
         <div class="flex gap-1 items-center">
-          <v-icon name="hi-calendar" class="text-gray-400" scale="0.9" />
-          <span :datetime="date.toDate().toISOString()" class="text-xs font-medium text-gray-400">
+          <v-icon name="hi-calendar" class="text-blue-900" scale="0.9" />
+          <span :datetime="date.toDate().toISOString()" class="text-xs font-medium text-blue-900">
             {{ convertDate(date) }}
           </span>
         </div>
@@ -38,8 +38,8 @@
       <!-- User Avatar & Title -->
       <div class="flex gap-3 items-center mb-4">
         <div class="flex gap-1 items-center">
-          <v-icon name="hi-document-text" class="text-gray-800" scale="0.9" />
-          <h2 class="px-2 py-1 text-lg font-semibold rounded-full bg-slate-100 text-slate-600">
+          <v-icon name="hi-document-text" class="text-rose-800" scale="0.9" />
+          <h2 class="px-2 py-1 text-lg font-semibold text-rose-800 bg-rose-50/50 rounded-full border-[1px] border-rose-900/30">
             ❝{{ title }}❞
           </h2>
         </div>
@@ -108,8 +108,12 @@
       <!-- Action Button -->
       <div class="pt-4 border-t border-gray-100">
         <button @click="answerComment"
-          class="flex gap-2 justify-center items-center px-4 py-2.5 w-full text-sm font-medium text-white bg-gradient-to-r from-rose-600 to-rose-700 rounded-lg shadow-sm transition-colors hover:from-rose-700 hover:to-rose-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
-          Responder Comentario
+          class="flex gap-2 justify-center items-center px-4 py-2.5 text-sm font-medium rounded-lg shadow-sm transition-all duration-700 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2"
+          :class="{'bg-white border-2 border-dashed border-red-500 text-red-700': !showReplyCard, 'bg-rose-600 hover:bg-rose-500 text-white': showReplyCard}"
+          >
+          <v-icon v-show="!showReplyCard" name="bi-reply-all-fill" scale="1.2" />
+          <v-icon v-show="showReplyCard" name="io-close-circle-sharp" class="text-white" scale="1.2" />
+          {{ showReplyCard ? 'Cerrar' : 'Responder Comentario' }}
         </button>
       </div>
     </div>

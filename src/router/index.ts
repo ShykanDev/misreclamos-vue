@@ -43,6 +43,16 @@ const router = createRouter({
       name: 'search-comment',
       component: () => import('../views/SearchComment.vue'),
     },
+    {
+      path: '/privacy-policy',
+      name: 'privacy-policy',
+      component: () => import('../views/PrivacyPolicy.vue'),
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: () => import('../views/TermsView.vue'),
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 }

@@ -2,7 +2,7 @@
   <!-- Answer Comment section -->
   <div
     v-if="showAnswerComment"
-    class="p-6 mt-6 rounded-xl border shadow-sm border-slate-100 text-slate-500"
+    class="p-6 rounded-xl border border-slate-100 text-slate-500"
     :class="{ 'bg-blue-50': isCompany, 'bg-slate-50': !isCompany }"
   >
     <h3 class="flex gap-2 items-center mb-4 text-xl font-bold">

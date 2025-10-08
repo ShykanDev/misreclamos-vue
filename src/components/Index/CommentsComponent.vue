@@ -1,4 +1,5 @@
 <template>
+  <section class="bg-">
   <div v-if="loading" class="flex flex-col justify-center items-center">
     <v-icon
       name="ri-loader-5-fill"
@@ -9,7 +10,7 @@
     />
     <p class="text-center text-slate-800">Cargando comentarios...</p>
   </div>
-  <div v-else>
+  <div ref="containerComments" class="">
     <viewer :images="images"> </viewer>
     <CommentCard
       v-for="complaint in complaints"
@@ -26,15 +27,27 @@
       :answers="complaint.answers"
       :docId="complaint.id"
     />
+    <div v-if="loading" class="flex flex-col justify-center items-center">
+    <v-icon
+      name="ri-loader-5-fill"
+      class="mx-auto text-rose-600"
+      animation="spin"
+      scale="7.5"
+      speed="fast"
+    />
+    <p class="text-center text-slate-800">Cargando comentarios...</p>
   </div>
+    <button @click="getComments" class="flex justify-center items-center px-4 py-2.5 mb-32 w-full text-sm font-medium text-white bg-rose-600 rounded-lg shadow-sm transition-all duration-700 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-rose-500">Cargar más</button>
+  </div>
+</section>
 </template>
 
 <script lang="ts" setup>
 import 'animate.css'
 import CommentCard from '@/components/CommentCard.vue'
-import { collection, getDocs, query, orderBy, limit, DocumentSnapshot } from 'firebase/firestore'
+import { collection, getDocs, query, orderBy, limit, DocumentSnapshot, startAfter } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import type { IComplaint } from '@/Interfaces/IComplaint'
 
 import 'notyf/notyf.min.css'
@@ -83,16 +96,39 @@ const complaints = ref<IComplaint[]>([])
 //Loading state
 const loading = ref(true)
 
-//Last visible document
-const lastVisibleDoc = ref<DocumentSnapshot | null>(null)
+const lastVisibleDoc = ref<DocumentSnapshot | null>(null);
+const complaintsLimit = ref(20);
 
-const complaintsLimit = ref(5)
-//Get comments
+const scrollDown = async() => {
+  if(containerComments.value){
+        await nextTick();
+        containerComments.value.scrollTop = containerComments.value.scrollHeight
+      }
+}
+
 const getComments = () => {
-  const qGetComplaints = query(complaintsCollection, orderBy('createdAt', 'desc'), limit(complaintsLimit.value))
-  getDocs(qGetComplaints)
+  loading.value = true
+
+  let q
+  if (lastVisibleDoc.value) {
+    // si ya hay un último documento, paginamos
+    q = query(
+      complaintsCollection,
+      orderBy('createdAt', 'desc'),
+      startAfter(lastVisibleDoc.value),
+      limit(complaintsLimit.value)
+    )
+  } else {
+    // primer carga
+    q = query(
+      complaintsCollection,
+      orderBy('createdAt', 'desc'),
+      limit(complaintsLimit.value)
+    )
+  }
+
+  getDocs(q)
     .then((querySnapshot) => {
-      loading.value = true
       querySnapshot.forEach((doc) => {
         const complaint = doc.data() as IComplaint
         complaints.value.push({
@@ -104,21 +140,24 @@ const getComments = () => {
               id: answer.id,
             })) || [],
         })
-        console.log(complaint)
       })
-      lastVisibleDoc.value = querySnapshot.docs[querySnapshot.docs.length - 1]
-      loading.value = false
-    })
-    .then(() => {
-      console.log('Complaints loaded')
-      console.log(complaints.value)
+
+      // actualizar el último documento visible
+      lastVisibleDoc.value =
+        querySnapshot.docs[querySnapshot.docs.length - 1] || lastVisibleDoc.value
+      console.log(`Container height: ${containerComments.value?.getBoundingClientRect().height}`)
+      console.log(`Container scroll height: ${containerComments.value?.scrollHeight}`)
+      scrollDown()
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
       notyf.error('Error al cargar los comentarios')
+    })
+    .finally(() => {
       loading.value = false
     })
 }
+
 
 //Answer sent event handler when a new answer is sent (emmit from CommentCard)
 const answerSent = () => {
@@ -137,10 +176,22 @@ const setLastComment = (date: string) => complaints.value.sort((a, b) => b.creat
   hour12: true,
 })
 
+const containerComments = ref<HTMLElement>()
+
+watch(complaints, async () => {
+  await nextTick();
+  if (containerComments.value) {
+    containerComments.value.scrollTop = containerComments.value.scrollHeight;
+  }
+});
+
+
 //On mounted get comments
 onMounted(() => {
 
   getComments()
+
+
 })
 </script>
 
