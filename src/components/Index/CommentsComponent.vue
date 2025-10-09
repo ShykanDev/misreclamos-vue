@@ -38,7 +38,7 @@
     />
     <p class="text-center text-slate-800">Cargando comentarios...</p>
   </div>
-    <button @click="getComments" class="flex justify-center items-center px-4 py-2.5 mb-32 w-full text-sm font-medium text-white bg-rose-600 rounded-lg shadow-sm transition-all duration-700 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-rose-500">Cargar más</button>
+    <button v-if="complaintsLimit <= complaints.length" @click="getComments" class="flex justify-center items-center px-4 py-2.5 mb-32 w-full text-sm font-medium text-white bg-rose-600 rounded-lg shadow-sm transition-all duration-700 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-rose-500">Cargar más</button>
   </div>
 </section>
 </template>
@@ -98,7 +98,7 @@ const complaints = ref<IComplaint[]>([])
 const loading = ref(true)
 
 const lastVisibleDoc = ref<DocumentSnapshot | null>(null);
-const complaintsLimit = ref(20);
+const complaintsLimit = ref(4);
 
 const scrollDown = async() => {
   if(containerComments.value){

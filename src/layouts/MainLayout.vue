@@ -157,36 +157,24 @@
         <div>
           <h3 class="mb-4 text-xl font-bold text-rose-900">Principales</h3>
           <ul class="space-y-2">
-            <li><a href="" class="transition-colors hover:text-rose-900">Nosotros</a></li>
-            <li><a href="" class="transition-colors hover:text-rose-900">Ayuda</a></li>
-            <li><a href="" class="transition-colors hover:text-rose-900">Comentarios</a></li>
-            <li><a href="" class="transition-colors hover:text-rose-900">Contacto</a></li>
+            <li><RouterLink to="/help" class="transition-colors hover:text-rose-900">Ayuda</RouterLink></li>
+            <li><RouterLink :to="{ name: 'all-categories', params: { category: 'Abarrotes y Bebidas' } }" class="transition-colors hover:text-rose-900">Comentarios</RouterLink></li>
+            <li><RouterLink to="/contact" class="transition-colors hover:text-rose-900">Contacto</RouterLink></li>
           </ul>
         </div>
 
-        <!-- Acciones -->
-        <div>
-          <h3 class="mb-4 text-xl font-bold text-rose-900">Acciones</h3>
-          <ul class="space-y-2">
-            <li><a href="" class="transition-colors hover:text-rose-900">Categorías</a></li>
-            <li><a href="" class="transition-colors hover:text-rose-900">Perfil</a></li>
-            <li><a href="" class="transition-colors hover:text-rose-900">Crear comentarios</a></li>
-            <li><a href="" class="transition-colors hover:text-rose-900">Crear Registro</a></li>
-            <li><a href="" class="transition-colors hover:text-rose-900">Iniciar Sesión</a></li>
-          </ul>
-        </div>
 
         <!-- Seguridad -->
         <div>
           <h3 class="mb-4 text-xl font-bold text-rose-900">Seguridad</h3>
           <ul class="space-y-2">
             <li>
-              <a href="" class="transition-colors hover:text-rose-900">Aviso de Privacidad</a>
+              <RouterLink to="/privacy-policy" class="transition-colors hover:text-rose-900">Aviso de Privacidad</RouterLink>
             </li>
             <li>
-              <a href="" class="transition-colors hover:text-rose-900">Términos y Condiciones</a>
+              <RouterLink to="/terms" class="transition-colors hover:text-rose-900">Términos y Condiciones</RouterLink>
             </li>
-            <li><img src="" alt="SSL Certificado" class="mt-2 w-auto h-8" /></li>
+            <li><img src="../assets/ssl-v2.webp" alt="SSL Certificado" class="mt-2 w-auto h-8" /></li>
           </ul>
         </div>
       </div>
