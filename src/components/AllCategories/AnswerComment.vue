@@ -121,7 +121,7 @@
         }"
         @click="answerComment"
         type="submit"
-        class="px-6 py-3 mt-5 w-full font-bold text-white bg-gradient-to-r to-cyan-600 rounded-lg shadow-lg transition-all transform from-slate-500 hover:shadow-xl hover:-translate-y-0.5 focus:ring-4 focus:ring-slate-200"
+        class="px-6 py-3 mt-5 w-full font-bold text-white bg-gradient-to-r to-cyan-600 rounded-lg shadow-lg transition-all transform cursor-pointer from-slate-500 hover:shadow-xl hover:-translate-y-0.5 focus:ring-4 focus:ring-slate-200"
       >
         Enviar respuesta a {{ props.answeringToName }}
       </button>

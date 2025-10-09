@@ -1,5 +1,6 @@
 <template>
-  <section class="bg-">
+  <!--Comments section for MAIN-->
+  <section class="">
   <div v-if="loading" class="flex flex-col justify-center items-center">
     <v-icon
       name="ri-loader-5-fill"
@@ -15,7 +16,7 @@
     <CommentCard
       v-for="complaint in complaints"
       :key="complaint.id"
-      @callReload="answerSent"
+      @callReload="getCommentsFromNewAnswer"
       @callViewer="showImageViewer"
       :category="complaint.category"
       :content="complaint.content"
@@ -108,7 +109,6 @@ const scrollDown = async() => {
 
 const getComments = () => {
   loading.value = true
-
   let q
   if (lastVisibleDoc.value) {
     // si ya hay un último documento, paginamos
@@ -158,13 +158,38 @@ const getComments = () => {
     })
 }
 
-
-//Answer sent event handler when a new answer is sent (emmit from CommentCard)
-const answerSent = () => {
+const getCommentsFromNewAnswer = () => {
   complaints.value = []
-  getComments()
-}
+  loading.value = true
+  const q = query(
+      complaintsCollection,
+      orderBy('createdAt', 'desc'),
+      limit(complaintsLimit.value)
+    )
 
+  getDocs(q)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const complaint = doc.data() as IComplaint
+        complaints.value.push({
+          ...complaint,
+          id: doc.id,
+          answers:
+            complaint.answers?.map((answer) => ({
+              ...answer,
+              id: answer.id,
+            })) || [],
+        })
+      })
+    })
+    .catch((error) => {
+      console.error(error)
+      notyf.error('Error al cargar los comentarios')
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 //Set last comment date
 const setLastComment = (date: string) => complaints.value.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime())[0].createdAt.toDate().toLocaleDateString('es-ES', {
   year: 'numeric',
@@ -185,6 +210,10 @@ watch(complaints, async () => {
   }
 });
 
+const reloadNewAnswer = () => {
+
+  getCommentsFromNewAnswer()
+}
 
 //On mounted get comments
 onMounted(() => {

@@ -117,8 +117,7 @@
         </button>
       </div>
     </div>
-    <AnswerComment v-if="showReplyCard" @callReload="callParentReload" @callClose="toggleReplyCard" :from-name="userName" :doc-id="docId" :answering-to-name="userName"
-      :answering-to-uid="userUid" />
+    <AnswerComment v-if="showReplyCard" @callReload="callParentReload" @callClose="toggleReplyCard" :from-name="userName" :doc-id="docId" :answering-to-name="userName" :answering-to-uid="userUid"/>
   </div>
 </template>
 
@@ -126,7 +125,7 @@
 import { Timestamp } from 'firebase/firestore'
 import AnswerComment from './AllCategories/AnswerComment.vue'
 import type { IAnswer } from '@/Interfaces/IComplaint'
-import { ref } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 
 //Convert date from props to legible date
 const convertDate = (dateParam: Timestamp) => {
@@ -203,4 +202,11 @@ const emmitShowImage = (image: string): void => emmits('callViewer', image)
 const showReplyCard = ref(false);
 
 const toggleReplyCard = () => showReplyCard.value = !showReplyCard.value;
+
+//Verify complaints if props change
+
+watchEffect(() => {
+ console.log(`Old value: ${props.answers}`)
+ console.log(`New value: ${props.answers}`)
+})
 </script>
