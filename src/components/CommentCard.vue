@@ -57,9 +57,9 @@
       </div>
 
       <!-- Answers -->
-      <div v-if="answers.length > 0" class="flex overflow-y-scroll flex-col p-2 max-h-96 rounded-2xl bg-blue-50/50">
+      <div v-if="answers" class="flex overflow-y-scroll flex-col p-2 max-h-96 rounded-2xl bg-blue-50/50">
 
-        <div v-for="answer in answers as IAnswer[]" :key="answer.uidTo"
+        <div  v-for="(answer, index) in Object.values(answers).flat()" :key="index"
           class="relative p-5 mb-4 bg-white rounded-md border-l-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
           :class="{
             'bg-blue-50/50 border-blue-200': answer.uidFrom == answer.uidTo,
@@ -176,7 +176,7 @@ const props = defineProps({
     default: '',
   },
   answers: {
-    type: Array,
+    type: Array as () => IAnswer[],
     default: () => [],
   },
   userUid: {
@@ -184,10 +184,6 @@ const props = defineProps({
   },
 })
 
-//Toggle the view of the comment
-const answerComment = () => {
-  toggleReplyCard()
-}
 
 //emmits
 const emmits = defineEmits(['reload', 'callReload', 'callViewer'])
@@ -197,6 +193,11 @@ const callParentReload = () => emmits('callReload')
 
 //once user clicks  on an image this function set the values and show the image
 const emmitShowImage = (image: string): void => emmits('callViewer', image)
+
+//Toggle the view of the comment
+const answerComment = () => {
+  toggleReplyCard()
+}
 
 //show reply comment card
 const showReplyCard = ref(false);

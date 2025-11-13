@@ -2,7 +2,7 @@
   <div class="bgCustom">
     <div class="flex sticky top-5 z-30 rounded-2xl items-left">
       <h4
-        class="inline-block px-1 mb-6 text-2xl font-semibold text-rose-800 bg-white border-b-2 border-rose-500 backdrop-blur-md"
+        class="inline-block px-2 mb-6 text-2xl font-semibold text-rose-800 bg-white rounded-3xl border-b-2 border-rose-500 backdrop-blur-md"
       >
         Categorías
       </h4>

@@ -6,7 +6,7 @@
     :class="{ 'bg-blue-50': isCompany, 'bg-slate-50': !isCompany }"
   >
     <h3 class="flex gap-2 items-center mb-4 text-xl font-bold">
-      <v-icon name="bi-reply-all-fill" scale="1.2" />Responder Comentario
+      <v-icon name="bi-reply-all-fill" scale="1.2" />Responder Comentario [Debug]
     </h3>
     <form @submit.prevent>
       <div class="mb-5">
@@ -14,8 +14,8 @@
           >Respondiendo a {{ props.answeringToName }}
           <span v-if="isCompany" class="animate-fade-right"
             >en representacion de la empresa/servicio
-          </span></label
-        >
+          </span>
+          </label>
 
         <textarea
           id="answer"
@@ -137,7 +137,6 @@ import { getFirestore, Timestamp, doc, arrayUnion, updateDoc } from 'firebase/fi
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css' // For React, Vue and Svelte
 import { ref } from 'vue'
-import Checkbox from './CheckboxComponent.vue'
 import imageCompression from 'browser-image-compression'
 import CheckboxComponent from './CheckboxComponent.vue'
 
@@ -281,9 +280,13 @@ const answerComment = async () => {
     }
     getAnswerData(compressedImageBase64.value).image = compressedImageBase64.value;
   }
+
   const docRef = doc(db, `complaints/${props.docId}`)
-  updateDoc(docRef, { answers: arrayUnion(getAnswerData(compressedImageBase64.value)) })
-    .then(() => {
+  updateDoc(docRef, {
+  [`answers.${auth.currentUser?.uid}`]: arrayUnion(
+    getAnswerData(compressedImageBase64.value)
+  )
+}) .then(() => {
       showLottie.value = true
       notyf.success('Se ha enviado su respuesta')
       answer.value = '' // limpiar el input

@@ -199,7 +199,7 @@
             <span>Contacto</span>
           </h2>
           <p class="leading-relaxed text-justify">
-            Si tienes preguntas o inquietudes sobre estos Términos y Condiciones, no dudes en contactarnos a través de <a href="mailto:informes@prasadam.mx" class="text-blue-600 hover:underline">informes@prasadam.mx</a>. Estamos aquí para ayudarte y aclarar cualquier duda que puedas tener.
+            Si tienes preguntas o inquietudes sobre estos Términos y Condiciones, no dudes en contactarnos a través de <a href="mailto:informes@grupochimex.com" class="text-blue-600 hover:underline">informes@grupochimex.com</a>. Estamos aquí para ayudarte y aclarar cualquier duda que puedas tener.
           </p>
           <p class="mt-3 leading-relaxed text-justify">
             Agradecemos tu confianza en nuestra aplicación y esperamos que disfrutes de una experiencia positiva y segura.
@@ -209,7 +209,7 @@
     </main>
 
     <footer class="pt-6 mt-12 text-sm text-center text-gray-500 border-t border-gray-200">
-      <p>© 2025 Los Estafadores Web. Todos los derechos reservados.</p>
+      <p>© 2025 misreclamos.com Todos los derechos reservados.</p>
     </footer>
   </div>
 </section>

@@ -230,8 +230,8 @@
                   Si tienes alguna pregunta, inquietud o comentario sobre nuestra política de privacidad, no dudes en
                   ponerte en contacto con nosotros. Estamos disponibles para ayudarte y resolver cualquier duda que
                   puedas tener. Puedes escribirnos en cualquier momento a <a
-                    href="mailto:informes@prasadam.mx"
-                    class="text-blue-600 hover:underline">informes@prasadam.mx</a>, y nuestro
+                    href="mailto:informes@grupochimex.com"
+                    class="text-blue-600 hover:underline">informes@grupochimex.com</a>, y nuestro
                   equipo responderá a la brevedad posible.
                 </p>
                 <p class="mt-3 leading-relaxed text-justify">
@@ -244,7 +244,7 @@
           </main>
 
           <footer class="pt-6 mt-12 text-sm text-center text-gray-500 border-t border-gray-200">
-            <p>© 2025 Los Estafadores Web. Todos los derechos reservados.</p>
+            <p>© {{ new Date().getFullYear() }} misreclamos.com Todos los derechos reservados.</p>
           </footer>
         </div>
       </section>

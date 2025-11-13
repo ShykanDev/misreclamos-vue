@@ -134,11 +134,7 @@ const getComments = () => {
         complaints.value.push({
           ...complaint,
           id: doc.id,
-          answers:
-            complaint.answers?.map((answer) => ({
-              ...answer,
-              id: answer.id,
-            })) || [],
+          answers: complaint.answers || []
         })
       })
 
@@ -150,7 +146,7 @@ const getComments = () => {
       scrollDown()
     })
     .catch((error) => {
-      console.error(error)
+      console.error(`Error while loading comments in main view: ${error}`)
       notyf.error('Error al cargar los comentarios')
     })
     .finally(() => {
@@ -174,11 +170,7 @@ const getCommentsFromNewAnswer = () => {
         complaints.value.push({
           ...complaint,
           id: doc.id,
-          answers:
-            complaint.answers?.map((answer) => ({
-              ...answer,
-              id: answer.id,
-            })) || [],
+            answers: complaint.answers || []
         })
       })
     })

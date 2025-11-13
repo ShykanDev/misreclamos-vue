@@ -7,7 +7,7 @@
         </div>
 
         <div class="overflow-y-scroll relative col-span-2 h-dvh">
-          <h2 class="sticky top-0 z-10 px-2 py-1 text-rose-800">
+          <h2 class="sticky top-0 z-10 px-2 py-1 text-rose-800 bg-white">
             {{
               category === 'default'
                 ? 'Comentarios Generales'

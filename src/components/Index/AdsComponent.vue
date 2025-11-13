@@ -13,7 +13,7 @@
         class="block p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-transparent bg-[url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center"
       >
         <div class="p-4 w-full rounded-lg bg-black/60">
-          <p class="text-3xl font-semibold text-white">oficiomaestro.com</p>
+          <p class="p-1 text-xl font-semibold text-black rounded-2xl bg-white/80">oficiomaestro.com</p>
           <p class="text-2xl text-white/90">
             Sitio para indagar o reportar a profesionistas y maestros de cualquier área
           </p>
@@ -28,7 +28,7 @@
         class="block p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-transparent bg-[url('https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center"
       >
         <div class="p-4 w-full rounded-lg bg-black/60">
-          <p class="text-3xl font-semibold text-white">miempleador.com</p>
+          <p class="p-1 text-xl font-semibold text-black rounded-2xl bg-white/80">miempleador.com</p>
           <p class="text-2xl text-white/90">
             Sitio para indagar a empleados y empleadores conociendo las experiencias de anteriores
             trabajadores o jefes
@@ -44,7 +44,7 @@
         class="block p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-transparent bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center"
       >
         <div class="p-4 rounded-lg bg-black/60">
-          <p class="text-3xl font-semibold text-white">miarrendatario.com</p>
+          <p class="p-1 px-1.5 text-lg font-semibold text-black rounded-2xl bg-white/80">miarrendatario.com</p>
           <p class="text-2xl text-white/90">
             Sitio para descubrir a arrendatarios y arrendadores conociendo las experiencias de
             anteriores inquilinos o dueños

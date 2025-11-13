@@ -13,10 +13,10 @@
         Si tienes dudas, necesitas ayuda con algún tema o deseas que tus datos sean modificados,
         envíanos un correo a:
         <a
-          href="mailto:informes@prasadam.mx"
+          href="mailto:informes@grupochimex.com"
           class="font-medium text-indigo-600 hover:underline"
         >
-          informes@prasadam.mx
+          informes@grupochimex.com
         </a>
       </p>
 
@@ -54,7 +54,7 @@
           <h3 class="mb-2 text-xl font-semibold text-gray-800">Modificar Datos</h3>
           <p class="text-gray-600">
             Envíanos un correo con los cambios que necesitas.
-            <strong>Ejemplo:</strong> "Quiero actualizar mi dirección a [nueva dirección]".
+            <strong>Ejemplo:</strong> "Quiero actualizar mi dirección a [nueva dirección]", "Quiero borrar mi comentario", "Quiero modificar mi correo electrónico", "Quiero borrar mi cuenta".
           </p>
         </div>
 

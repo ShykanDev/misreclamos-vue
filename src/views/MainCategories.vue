@@ -6,10 +6,10 @@
 
       <!--Start of the comments UI-->
       <section
-        class="grid grid-cols-[1fr_2fr_1fr] w-full bg-gradient-to-b from-blue-50 to-gray-100"
+        class="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr] w-full bg-gradient-to-b from-blue-50 to-gray-100"
       >
         <!--Categories-->
-        <article class="overflow-y-scroll h-dvh">
+        <article class="hidden overflow-y-scroll h-dvh sm:block">
           <CategoriesComponent />
         </article>
 
@@ -20,7 +20,7 @@
         </article>
 
         <!--Ads-->
-        <article class="overflow-y-scroll p-6 bg-gray-100 rounded-sm h-dvh">
+        <article class="hidden overflow-y-scroll p-6 bg-gray-100 rounded-sm h-dvh sm:block">
           <AdsComponent />
         </article>
       </section>
