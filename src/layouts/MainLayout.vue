@@ -189,7 +189,6 @@
     </div>
   </footer>
 </template>
-
 <script lang="ts" setup>
 import AnimatedLogo from '@/components/Header/AnimatedLogo.vue'
 import { nextTick, onMounted, ref } from 'vue'

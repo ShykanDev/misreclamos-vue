@@ -6,7 +6,7 @@
     :class="{ 'bg-blue-50': isCompany, 'bg-slate-50': !isCompany }"
   >
     <h3 class="flex gap-2 items-center mb-4 text-xl font-bold">
-      <v-icon name="bi-reply-all-fill" scale="1.2" />Responder Comentario [Debug]
+      <v-icon name="bi-reply-all-fill" scale="1.2" />Responder Comentario
     </h3>
     <form @submit.prevent>
       <div class="mb-5">
