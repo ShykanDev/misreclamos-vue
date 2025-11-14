@@ -94,7 +94,7 @@
       </div>
       <small class="mt-9 text-xs text-slate-400"
         >ⓘ Los comentarios publicados son responsabilidad exclusiva de quien los emite. Nos
-        reservamos el derecho de moderar, eliminar o reportar aquellos que infrinjan nuestras
+        reservamos el derecho de moderar, eliminar o reportar aquellos que infrinjan nuestras necesito hacer una
         políticas o leyes aplicables.</small
       >
       <div class="flex justify-center">

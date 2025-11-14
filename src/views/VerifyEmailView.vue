@@ -54,7 +54,7 @@
 
           <!-- Mensaje de error (con animación) -->
           <div
-            v-if="isError || !isValidCode"
+            v-else-if="isError || !isValidCode"
             class="p-4 text-center text-red-700 bg-red-50 rounded-xl animate-fade-up"
           >
             <svg
@@ -156,6 +156,7 @@ import AnimationLoader from '@/animations/Loaders/LoaderA.vue'
 import LoaderA from '@/animations/Loaders/LoaderA.vue'
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
+import type { FirebaseError } from 'firebase/app'
 const notyf = new Notyf({
   position: {
     x: 'center',
@@ -200,11 +201,11 @@ const validateEmail = async () => {
     }
     isLoading.value = false
   } catch (error) {
-    const e = error as Error
+    const e = error as  FirebaseError;
     console.log(e)
     isError.value = true
     isLoading.value = false
-    errorMessage.value = e.code
+    errorMessage.value = e.code;
   }
 }
 
@@ -216,20 +217,23 @@ const newPassword = ref()
 const confirmNewPassword = ref()
 const isValidCode = ref(false)
 const confirmPassword = async () => {
-  try {
-    const email = await verifyPasswordResetCode(auth, oobCode as string)
-    isValidCode.value = true
-    return true
-  } catch (error) {
-    const e = error as Error
-    notyf.error(`El código de verificación no es válido: ${e.message}`)
-    console.log(e)
-    isError.value = true
-    isLoading.value = false
-    errorMessage.value = e.message
-    isValidCode.value = false
-    return false
+try {
+  isLoading.value = true
+  await applyActionCode(auth, oobCode as string)
+  if (mode === 'verifyEmail') {
+    isSuccessEmail.value = true
+    isError.value = false //
   }
+  isLoading.value = false
+} catch (error) {
+  const e = error as FirebaseError
+  console.log(e)
+  isError.value = true
+  isSuccessEmail.value = false //
+  isLoading.value = false
+  errorMessage.value = e.code;
+}
+
 }
 const resetPassword = async () => {
   if (!newPassword.value) {
@@ -263,7 +267,7 @@ const resetPassword = async () => {
     router.push('/login')
     isLoading.value = false
   } catch (error) {
-    const e = error as Error
+    const e = error as FirebaseError
     notyf.error(`Error al actualizar la contraseña: ${e.message}`)
     console.log(e)
     isError.value = true
@@ -275,10 +279,14 @@ const resetPassword = async () => {
 }
 
 onMounted(() => {
+  isSuccessEmail.value = false
+  isError.value = false
+  isValidCode.value = false
+  errorMessage.value = ''
+
   if (!mode || !oobCode) {
     notyf.error('URL has not a valid "Mode" or "OOB" parameter')
     isError.value = true
-    isLoading.value = false
     errorMessage.value = 'URL has not a valid "Mode" or "OOB" parameter'
     return
   }
@@ -288,6 +296,7 @@ onMounted(() => {
     confirmPassword()
   }
 })
+
 </script>
 
 <style scoped></style>
